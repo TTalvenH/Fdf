@@ -20,17 +20,47 @@ int main()
 {
 	t_data	img;
 	t_var	var;
-
+	t_float2 p1 ={500.0, 500.0};
+	t_float2 p2 ={500.0, 1.0};
+	t_box box ={
+				{500.0, 500.0}
+				{550.0, 500.0}
+				{550.0, 550.0}
+				{500.0, 550.0}
+				};
+	int i = 0;
 	var.color = 0x00FF0000;
 	var.mlx = mlx_init();
 	if (!var.mlx)
 		return (1);
-	var.mlx_win = mlx_new_window(var.mlx, 740, 740, "test");
-	img.img = mlx_new_image(var.mlx, 740,740);
+	var.mlx_win = mlx_new_window(var.mlx, 1000, 1000, "test");
+	img.img = mlx_new_image(var.mlx, 1000, 1000);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
 								 &img.line_lenght, &img.endian);
 
-	my_mlx_pixel_put(&img, 150, 150, var.color);
-	mlx_put_image_to_window(var.mlx, var.mlx_win, img.img, 0,0);
+	// my_mlx_pixel_put(&img, 150, 150, var.color);
+	while (i < 20)
+	{
+		plot_line(&img, &p1, &p2, var.color);
+
+		p2.y += 50;
+		p2.x += 30;
+		i++;
+	}
+
+	i = 0;
+	p2.x = 500.0;
+	p2.y = 1.0;
+	
+
+	while (i < 20)
+	{
+		plot_line(&img, &p1, &p2, var.color);
+
+		p2.y += 50;
+		p2.x +=	-30;
+		i++;
+	}
+	mlx_put_image_to_window(var.mlx, var.mlx_win, img.img, 0, 0);
 	mlx_loop(var.mlx);
 }

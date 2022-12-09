@@ -1,7 +1,7 @@
 NAME = fdf
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-OBJ = main.o my_mlx_pixel_put.o translate_vector.o
+OBJ = main.o my_mlx_pixel_put.o line.o
 all: $(NAME) 
 
 $(NAME): $(OBJ)
