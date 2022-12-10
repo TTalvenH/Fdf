@@ -20,15 +20,12 @@ int main()
 {
 	t_data	img;
 	t_var	var;
-	t_float2 p1 ={500.0, 500.0};
-	t_float2 p2 ={500.0, 1.0};
 	t_box box ={
-				{500.0, 500.0}
-				{550.0, 500.0}
-				{550.0, 550.0}
+				{500.0, 500.0},
+				{550.0, 500.0},
+				{550.0, 550.0},
 				{500.0, 550.0}
 				};
-	int i = 0;
 	var.color = 0x00FF0000;
 	var.mlx = mlx_init();
 	if (!var.mlx)
@@ -39,28 +36,10 @@ int main()
 								 &img.line_lenght, &img.endian);
 
 	// my_mlx_pixel_put(&img, 150, 150, var.color);
-	while (i < 20)
-	{
-		plot_line(&img, &p1, &p2, var.color);
-
-		p2.y += 50;
-		p2.x += 30;
-		i++;
-	}
-
-	i = 0;
-	p2.x = 500.0;
-	p2.y = 1.0;
-	
-
-	while (i < 20)
-	{
-		plot_line(&img, &p1, &p2, var.color);
-
-		p2.y += 50;
-		p2.x +=	-30;
-		i++;
-	}
+	plot_line(&img, &box.a, &box.b, var.color);
+	plot_line(&img, &box.b, &box.c, var.color);
+	plot_line(&img, &box.c, &box.d, var.color);
+	plot_line(&img, &box.d, &box.a, var.color);
 	mlx_put_image_to_window(var.mlx, var.mlx_win, img.img, 0, 0);
 	mlx_loop(var.mlx);
 }
