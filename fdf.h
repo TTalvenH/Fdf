@@ -1,7 +1,15 @@
 #ifndef FDF_H
 # define FDF_H
-#include <mlx.h>
-#include <math.h>
+# include <mlx.h>
+# include <math.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <string.h>
+# include "./libft/libft.h"
+
+# define WIDTH 700
+# define HEIGHT 700
 
 typedef struct 	s_data
 {
@@ -51,19 +59,19 @@ typedef struct	s_float4
 	float	w;
 }				t_float4;
 
-typedef struct 	s_matrix4x4
+typedef	struct	s_map
 {
-	t_float4	a;
-	t_float4	b;
-	t_float4	c;
-	t_float4	f;
-}				t_matrix4x4;
+	size_t	rows;
+	size_t	columns;
+}				t_map;
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	translate_vector(t_float4 *vector, float x, float y, float z);
-void	plot_line_low(t_data *data, t_float2 *p1, t_float2 *p2, int color);
-void	plot_line_high(t_data *data, t_float2 *p1, t_float2 *p2, int color);
-void	plot_line(t_data *data, t_float2 *p1, t_float2 *p2, int color);
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		translate_vector(t_float4 *vector, float x, float y, float z);
+void		plot_line_low(t_data *data, t_float2 *p1, t_float2 *p2, int color);
+void		plot_line_high(t_data *data, t_float2 *p1, t_float2 *p2, int color);
+void		plot_line(t_data *data, t_float2 *p1, t_float2 *p2, int color);
+t_map		map_size(char *arg);
+
 
 
 #endif

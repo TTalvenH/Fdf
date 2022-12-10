@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-void	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void	ft_gnl_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	if (dstsize)
 	{
@@ -27,7 +27,7 @@ void	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	}
 }
 
-char	*ft_strndup(const char *s1, size_t n)
+char	*ft_gnl_strndup(const char *s1, size_t n)
 {
 	char	*s1_dup;
 
@@ -40,7 +40,7 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (s1_dup);
 }
 
-void	ft_strlcat(char *dst, const char *src, size_t dstsize, size_t dst_len)
+void	ft_gnl_strlcat(char *dst, const char *src, size_t dstsize, size_t dst_len)
 {
 	if (dstsize != 0 && dstsize > dst_len)
 	{

@@ -1,11 +1,13 @@
 NAME = fdf
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-OBJ = main.o my_mlx_pixel_put.o line.o translate_vector.o
+SRC = main.c my_mlx_pixel_put.c line.c translate_vector.c map_size.c
+OBJ = $(SRC:.c=.o)
+
 LIBFT = libft.a
 OS = $(shell uname)
 
-all: $(NAME) $(LIBFT)
+all: $(LIBFT) $(NAME)
 
 $(LIBFT):
 	make -C libft
@@ -19,11 +21,11 @@ $(NAME): $(OBJ)
 endif
 
 ifeq ($(OS), Linux)
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) -Lmlx_linux -lmlx_Linux -L/usr/include -Imlx_linux -Llibft -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+$(NAME): $(SRC)
+	$(CC) $(SRC) ./libft/libft.a -Lmlx_linux -lmlx_Linux -L/usr/include -Ilibft -Llibft -Imlx_linux -lXext -lX11 -lm -lz -g -o $(NAME)
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -I/usr/include -Imlx_linux -O3 -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -I/usr/include -Imlx_linux -c $< -o $@
 endif
 
 clean:
@@ -31,5 +33,7 @@ clean:
 
 fclean: clean
 	rm -rf $(NAME)
+	make clean -C libft
 
 re: fclean all
+	make fclean -C libft

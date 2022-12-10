@@ -14,6 +14,14 @@
 # define LIBFT_H
 # include	<stdlib.h>
 # include   <unistd.h>
+# define BUFF_SIZE 16
+
+typedef struct s_vec
+{
+	char	*str;
+	size_t	u;
+	size_t	i;
+}t_vec;
 
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
@@ -49,4 +57,8 @@ int			ft_putchar_fd(char c, int fd);
 int			ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 int			ft_putnbr_fd(int n, int fd);
+char		*get_next_line(int fd);
+void		ft_gnl_strlcat(char *dst, const char *src, size_t dstsize, size_t dst_len);
+void		ft_gnl_strlcpy(char *dst, const char *src, size_t dstsize);
+char		*ft_gnl_strndup(const char *s1, size_t n);
 #endif

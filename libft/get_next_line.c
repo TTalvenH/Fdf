@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 int	vec_init_or_grow(t_vec *vec, size_t new_size)
 {
