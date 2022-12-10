@@ -1,7 +1,7 @@
 NAME = fdf
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-SRC = main.c my_mlx_pixel_put.c line.c translate_vector.c map_size.c
+SRC = main.c multiply_matrix.c my_mlx_pixel_put.c line.c translate_vector.c map_size.c
 OBJ = $(SRC:.c=.o)
 
 LIBFT = libft.a

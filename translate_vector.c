@@ -1,6 +1,6 @@
 #include "fdf.h"
 
-// void	translate_vector(t_float4 *vector, float x, float y, float z)
+// void	translate_vector(t_float3 *vector, float x, float y, float z)
 // {
 // 	t_matrix4x4 matrix = {
 // 	{1.0, 0.0, 0.0, x},

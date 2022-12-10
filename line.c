@@ -1,13 +1,6 @@
 #include "fdf.h"
 
-float	ft_abs(float n)
-{
-	if (n < 0)
-		n = -n;
-	return (n);
-}
-
-void	plot_line_low(t_data *data, t_float2 *p1, t_float2 *p2, int color)
+void	plot_line_low(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 {
 	t_line var;
 
@@ -38,7 +31,7 @@ void	plot_line_low(t_data *data, t_float2 *p1, t_float2 *p2, int color)
 	}
 }
 
-void	plot_line_high(t_data *data, t_float2 *p1, t_float2 *p2, int color)
+void	plot_line_high(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 {
 	t_line var;
 
@@ -69,9 +62,9 @@ void	plot_line_high(t_data *data, t_float2 *p1, t_float2 *p2, int color)
 	}
 }
 
-void	plot_line(t_data *data, t_float2 *p1, t_float2 *p2, int color)
+void	plot_line(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 {
-	if (ft_abs(p2->y - p1->y) < ft_abs(p2->x - p1->x))
+	if (abs(p2->y - p1->y) < abs(p2->x - p1->x))
 	{
 		if (p1->x > p2->x)
 			plot_line_low(data, p2, p1, color);

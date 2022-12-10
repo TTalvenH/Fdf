@@ -8,8 +8,13 @@
 # include <string.h>
 # include "./libft/libft.h"
 
-# define WIDTH 700
-# define HEIGHT 700
+# define WIDTH 256.0f
+# define HEIGHT 240.0f
+# define fNear 0.1f
+# define fFar 1000.0f
+# define fFov 90.0f
+# define fAspectRatio HEIGHT / WIDTH
+# define fFovRad 1.0f / tan(fFov * 0.5f / 180.0f * M_PI)
 
 typedef struct 	s_data
 {
@@ -43,21 +48,23 @@ typedef struct	s_float2
 	float	y;
 }				t_float2;
 
-typedef struct	s_box
-{
-	t_float2	a;
-	t_float2	b;
-	t_float2	c;
-	t_float2	d;
-}				t_box;
 
-typedef struct	s_float4
+typedef struct	s_float3
 {
 	float	x;
 	float	y;
 	float	z;
-	float	w;
-}				t_float4;
+}				t_float3;
+
+typedef struct	s_triangle
+{
+	t_float3	p[4];
+}				t_triangle;
+
+typedef struct	s_mat4x4
+{
+		float	m[4][4];
+}				t_mat4x4;
 
 typedef	struct	s_map
 {
@@ -66,11 +73,12 @@ typedef	struct	s_map
 }				t_map;
 
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void		translate_vector(t_float4 *vector, float x, float y, float z);
-void		plot_line_low(t_data *data, t_float2 *p1, t_float2 *p2, int color);
-void		plot_line_high(t_data *data, t_float2 *p1, t_float2 *p2, int color);
-void		plot_line(t_data *data, t_float2 *p1, t_float2 *p2, int color);
+void		translate_vector(t_float3 *vector, float x, float y, float z);
+void		plot_line_low(t_data *data, t_float3 *p1, t_float3 *p2, int color);
+void		plot_line_high(t_data *data, t_float3 *p1, t_float3 *p2, int color);
+void		plot_line(t_data *data, t_float3 *p1, t_float3 *p2, int color);
 t_map		map_size(char *arg);
+void		multiply_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
 
 
 
