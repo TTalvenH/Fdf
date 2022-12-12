@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 // 					  {0.0f, 0.0f, 0.0f},
 // 					  {0.0f, 1.0f, 0.0f},
 // 					  {1.0f, 1.0f, 0.0f},
-// 					  {0.0f, 1.0f, 1.0f}
+// 					  {2.0f, -1.0f, 1.0f}
 // 					}};
 // 	t_triangle trans = test;
 // 	t_triangle out = {};

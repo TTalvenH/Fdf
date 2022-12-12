@@ -82,6 +82,8 @@ void		multiply_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
 void		matrix_proj_init(t_mat4x4 *matrix);
 void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
+void		draw_init(t_map *map, char *arg);
+
 
 
 
