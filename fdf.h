@@ -79,6 +79,12 @@ void		plot_line_high(t_data *data, t_float3 *p1, t_float3 *p2, int color);
 void		plot_line(t_data *data, t_float3 *p1, t_float3 *p2, int color);
 t_map		map_size(char *arg);
 void		multiply_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
+void		matrix_proj_init(t_mat4x4 *matrix);
+void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
+void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
+
+
+
 
 
 
