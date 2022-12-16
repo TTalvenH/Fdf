@@ -1,7 +1,7 @@
 NAME = fdf
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-SRC = main.c multiply_matrix.c my_mlx_pixel_put.c line.c translate_vector.c map_size.c matrices.c draw_init.c
+SRC = main.c multiply_matrix.c my_mlx_pixel_put.c line.c translate_vector.c map_size.c matrices.c draw_init.c draw.c
 OBJ = $(SRC:.c=.o)
 
 LIBFT = libft.a
@@ -14,7 +14,7 @@ $(LIBFT):
 
 ifeq ($(OS), Darwin)
 $(NAME): $(SRC)
-	$(CC) $(SRC) ./libft/libft.a -Lmlx -lmlx -Ilibft -Llibft -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(SRC) ./libft/libft.a -Lmlx -lmlx -Ilibft -Llibft -framework OpenGL -framework AppKit -g -o $(NAME)
 
 %.o: %.c
 	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@

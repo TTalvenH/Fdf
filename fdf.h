@@ -9,22 +9,14 @@
 # include "./libft/libft.h"
 #include <stdio.h> // ! poistaaaaaaa
 
-# define WIDTH 256.0f
-# define HEIGHT 240.0f
+# define WIDTH 1000.0f
+# define HEIGHT 1000.0f
 # define fNear 0.1f
 # define fFar 1000.0f
 # define fFov 90.0f
 # define fAspectRatio HEIGHT / WIDTH
 # define fFovRad 1.0f / tan(fFov * 0.5f / 180.0f * M_PI)
 
-typedef struct 	s_data
-{
-	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_lenght;
-	int			endian;
-}				t_data;
 
 typedef struct	s_line
 {
@@ -57,21 +49,39 @@ typedef struct	s_float3
 	float	z;
 }				t_float3;
 
-typedef struct	s_triangle
+typedef	struct	s_map
 {
-	t_float3	p[4];
-}				t_triangle;
+	size_t	rows;
+	size_t	columns;
+}				t_map;
 
 typedef struct	s_mat4x4
 {
 		float	m[4][4];
 }				t_mat4x4;
 
-typedef	struct	s_map
+typedef struct 	s_data
 {
-	size_t	rows;
-	size_t	columns;
-}				t_map;
+	void		*img;
+	void		*mlx;
+	void		*mlx_win;
+	char		*addr;
+	int			color;
+	int			bits_per_pixel;
+	int			line_lenght;
+	int			endian;
+	t_float3	**map_points;
+	t_map 		*size;
+	t_mat4x4	m;
+	t_mat4x4	r;
+}				t_data;
+
+typedef struct	s_triangle
+{
+	t_float3	p[4];
+}				t_triangle;
+
+
 
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void		translate_vector(t_float3 *vector, float x, float y, float z);
@@ -85,6 +95,8 @@ void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
 void		draw_init(t_map *map_size, char *arg);
 void		fill_map(t_float3 **map_points, char *arg);
+void		draw(t_float3 **map_points, t_map *map_size);
+
 
 
 

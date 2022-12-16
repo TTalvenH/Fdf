@@ -32,6 +32,14 @@ int main(int argc, char **argv)
 // 	t_triangle out = {};
 
 // 	matrix_proj_init(&matrix_p);
+
+
+
+//! 	trans.p[0].z = test.p[0].z + 1.5f;
+//! 	multiply_matrix(&trans.p[0], &out.p[0], &matrix_p);
+//!		out.p[0].x += 1.0f; out.p[0].y += 1.0f;
+//!		out.p[0].x *= 0.5f * WIDTH;
+//! 	out.p[0].y *= 0.5f * HEIGHT;
 	
 // 	trans.p[0].z = test.p[0].z + 1.5f;
 // 	trans.p[1].z = test.p[1].z + 1.5f;

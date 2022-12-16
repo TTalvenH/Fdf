@@ -59,29 +59,29 @@ void	draw_init(t_map *map_size, char *arg)
 {
 	t_float3	**map_points;
 	int			i;
-	int			j, k;
+	// int			j, k;
 
-	j = 0;
-	k = 0;
+	// j = 0;
+	// k = 0;
 	i = 0;
 	map_points = malloc(sizeof(t_float3 *) * map_size->rows);
 	while (i < map_size->rows)
 	{
 		map_points[i] = malloc(sizeof(t_float3) * map_size->columns);
-		ft_bzero(map_points[i++], (sizeof(float) * (map_size->columns)));
+		ft_bzero(map_points[i++], (sizeof(t_float3) * (map_size->columns)));
 	}
-	// zero_map_array(&map_points);
 	fill_map(map_points, arg);
-	while(j < map_size->columns)
-	{
-		while (k < map_size->columns)
-		{
-			printf("%.1f,", map_points[j][k].x);
-			printf("%.1f,", map_points[j][k].y);
-			printf("%.1f ", map_points[j][k++].z);
-		}
-		printf("\n");
-		j++;
-		k = 0;
-	}
+	draw(map_points, map_size);
+	// while(j < map_size->rows)
+	// {
+	// 	while (k < map_size->columns)
+	// 	{
+	// 		printf("%.1f,", map_points[j][k].x);
+	// 		printf("%.1f,", map_points[j][k].y);
+	// 		printf("%.1f ", map_points[j][k++].z);
+	// 	}
+	// 	printf("\n");
+	// 	j++;
+	// 	k = 0;
+	// }
 }
