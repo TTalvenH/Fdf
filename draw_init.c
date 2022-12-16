@@ -33,34 +33,55 @@ void	fill_map(t_float3 **map_points, char *arg)
 
 	if((fd = open (arg, O_RDONLY)) < 0)
 		return ;
-	while (map_line != NULL || yi++ == -1)
+	while (yi++ == -1 || map_line != NULL)
 	{
 		map_line = get_next_line(fd);
-		line_points = ft_split(map_line, ' ');
-		while (line_points[xi] != NULL)
+		if (map_line)
 		{
-			if (ft_atoi(line_points[xi]) != 0)
-				map_points[yi][xi].z = (float)ft_atoi(line_points[xi]);
-			map_points[yi][xi].x += (float)xi;
-			map_points[yi][xi++].y += (float)yi;
+			line_points = ft_split(map_line, ' ');
+			while (line_points[xi] && map_line)
+			{
+				if (ft_atoi(line_points[xi]) != 0)
+					map_points[yi][xi].z = (float)ft_atoi(line_points[xi]);
+				map_points[yi][xi].x += (float)xi;
+				map_points[yi][xi++].y += (float)yi;
+			}
+			while (xi > 0)
+				free (line_points[xi--]);
+			free(line_points);
+			free(map_line);
 		}
-		while (xi > 0)
-			free (line_points[xi--]);
-		free(map_line);
 	}
 }
 
 
-void	draw_init(t_map *map, char *arg)
+void	draw_init(t_map *map_size, char *arg)
 {
 	t_float3	**map_points;
 	int			i;
+	int			j, k;
 
+	j = 0;
+	k = 0;
 	i = 0;
-	map_points = malloc(sizeof(t_float3 *) * map->rows);
-	while (i < map->rows)
-		map_points[i++] = malloc(sizeof(t_float3) * map->columns);
-	ft_bzero(&map_points, (sizeof(t_float3) * (map->columns * map->rows)));
+	map_points = malloc(sizeof(t_float3 *) * map_size->rows);
+	while (i < map_size->rows)
+	{
+		map_points[i] = malloc(sizeof(t_float3) * map_size->columns);
+		ft_bzero(map_points[i++], (sizeof(float) * (map_size->columns)));
+	}
 	// zero_map_array(&map_points);
 	fill_map(map_points, arg);
+	while(j < map_size->columns)
+	{
+		while (k < map_size->columns)
+		{
+			printf("%.1f,", map_points[j][k].x);
+			printf("%.1f,", map_points[j][k].y);
+			printf("%.1f ", map_points[j][k++].z);
+		}
+		printf("\n");
+		j++;
+		k = 0;
+	}
 }

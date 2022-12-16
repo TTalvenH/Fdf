@@ -7,6 +7,7 @@
 # include <unistd.h>
 # include <string.h>
 # include "./libft/libft.h"
+#include <stdio.h> // ! poistaaaaaaa
 
 # define WIDTH 256.0f
 # define HEIGHT 240.0f
@@ -82,7 +83,8 @@ void		multiply_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
 void		matrix_proj_init(t_mat4x4 *matrix);
 void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
-void		draw_init(t_map *map, char *arg);
+void		draw_init(t_map *map_size, char *arg);
+void		fill_map(t_float3 **map_points, char *arg);
 
 
 

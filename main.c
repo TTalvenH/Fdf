@@ -3,14 +3,14 @@
 
 int main(int argc, char **argv)
 {
-	t_map	map;
+	t_map	map_xy;
 	if (argc == 2)
 	{
-		map = map_size(argv[1]);
-		if (!map.rows && !map.columns)
+		map_xy = map_size(argv[1]);
+		if (!map_xy.rows && !map_xy.columns)
 			return (1);
-		draw_init(&map, argv[1]);
-		printf("%lu and %lu\n", map.rows, map.columns);
+		draw_init(&map_xy, argv[1]);
+		printf("%lu and %lu\n", map_xy.rows, map_xy.columns);
 	}
 	return (0);
 }
