@@ -1,13 +1,32 @@
 #include "fdf.h"
 
-void	transform(t_float3 *point, t_mat4x4 *matrix, t_mat4x4 *matrix1)
+void	transform(t_float3 *point, t_data *var)
+{	
+	var->joku += 0.00006;
+	matrix_orth_proj_init(&var->mat_proj);
+	matrix_rotx_init(&var->mat_rx, 1.0f * var->joku);
+	matrix_rotz_init(&var->mat_rz, 1.0f * var->joku);
+ 	multiply_matrix(point, &var->mat_rz);
+ 	// multiply_matrix(point, &var->mat_rx);
+ 	multiply_matrix(point, &var->mat_proj);
+	// point->x += 1.0f; 
+	// point->y += 1.0f;
+ 	point->z += 10;
+	// point->x *= 0.5f * 10.0f;
+ 	// point->y *= 0.5f * 10.0f;
+}
+
+void	array2_copy(t_data *var)
 {
- 	point->z += 25.5f;
- 	multiply_matrix(point, point, matrix1);
- 	multiply_matrix(point, point, matrix);
-	point->x += 1.0f; point->y += 1.0f;
-	point->x *= 0.5f * WIDTH;
- 	point->y *= 0.5f * HEIGHT;
+	int i;
+
+	i = 0;
+	while (i < var->size->rows)
+	{
+		ft_memcpy(var->transform_points[i], var->map_points[i], 
+							sizeof(t_float3) * var->size->columns);
+		i++;
+	}
 }
 
 int		frame_draw(t_data *var) 
@@ -16,23 +35,21 @@ int		frame_draw(t_data *var)
 	size_t		x;
 
 	y = 0;
-	ft_bzero(var->addr, WIDTH * HEIGHT);
+
+	array2_copy(var);
+	ft_bzero(var->addr, sizeof(int) * (WIDTH * HEIGHT));
 	while (y < var->size->rows)
 	{
 		x = 0;
 		while(x < var->size->columns)
 		{	
-			transform(&var->map_points[y][x], &var->m, &var->r);
+			transform(&var->transform_points[y][x], var);
 			if (y)
-			{
-				plot_line (var, &var->map_points[y - 1][x],
-						   			 &var->map_points[y][x], var->color);
-			}
+				plot_line (var, &var->transform_points[y - 1][x],
+						   		&var->transform_points[y][x], var->color);
 			if (x)
-			{
-				plot_line (var, &var->map_points[y][x - 1],
-						   			 &var->map_points[y][x], var->color);
-			}
+				plot_line (var, &var->transform_points[y][x - 1],
+						   		&var->transform_points[y][x], var->color);
 			x++;
 		}
 		y++;
@@ -56,19 +73,20 @@ void	init_window(t_data *var)
 								 &var->line_lenght, &var->endian);
 }
 
-
-
 void	draw(t_float3 **map_points, t_map *map_size)
 {
 	t_data	var;
 
+	var.joku = 0;
+	var.transform_points = array2_malloc(map_size->rows, map_size->columns);
 	var.size = map_size;
 	var.map_points = map_points;
-	matrix_proj_init(&var.m);
-	matrix_rotz_init(&var.r, 0.80);
+	// matrix_proj_init(&var.mat_proj);
+	// matrix_rotx_init(&var.mat_rx, 0);
+	// matrix_rotz_init(&var.mat_rz, 0);
 	init_window(&var);
-	frame_draw(&var);
+	// frame_draw(&var);
 
-	// init_hooks(&var);
+	init_hooks(&var);
 	mlx_loop(var.mlx);
 }

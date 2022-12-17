@@ -20,7 +20,9 @@ void	plot_line_low(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 
 	while (var.x < p2->x)
 	{
-		my_mlx_pixel_put(data, var.x++, var.y, color);
+		if ((var.x > 0 && var.x < WIDTH) && (var.y > 0 && var.y < HEIGHT))
+			my_mlx_pixel_put(data, var.x, var.y, color);
+		var.x++;
 		if (var.d > 0)
 		{
 			var.y = var.y + var.sign;
@@ -51,7 +53,9 @@ void	plot_line_high(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 
 	while (var.y < p2->y)
 	{
-		my_mlx_pixel_put(data, var.x, var.y++, color);
+		if ((var.x > 0 && var.x < WIDTH) && (var.y > 0 && var.y < HEIGHT))
+			my_mlx_pixel_put(data, var.x, var.y, color);
+		var.y++;
 		if (var.d > 0)
 		{
 			var.x = var.x + var.sign;

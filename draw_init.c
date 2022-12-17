@@ -55,21 +55,44 @@ void	fill_map(t_float3 **map_points, char *arg)
 }
 
 
+t_float3	**array2_malloc(size_t y, size_t x)
+{
+	t_float3 **array;
+	int i;
+
+	i = 0;
+	array = malloc(sizeof(t_float3 *) * y);
+	while (i < y)
+	{
+		array[i] = malloc(sizeof(t_float3) * x);
+		ft_bzero(array[i++], (sizeof(t_float3) * x));
+	}
+	return (array);
+}
+
+void	array2_free(t_float3 **array, size_t y)
+{
+	int i;
+
+	i = 0;
+	while (i < y)
+		free (array[i++]);
+	free (array);
+}
 void	draw_init(t_map *map_size, char *arg)
 {
 	t_float3	**map_points;
-	int			i;
 	// int			j, k;
-
+	int i = 0;
 	// j = 0;
 	// k = 0;
-	i = 0;
-	map_points = malloc(sizeof(t_float3 *) * map_size->rows);
-	while (i < map_size->rows)
-	{
-		map_points[i] = malloc(sizeof(t_float3) * map_size->columns);
-		ft_bzero(map_points[i++], (sizeof(t_float3) * (map_size->columns)));
-	}
+	map_points = array2_malloc(map_size->rows, map_size->columns);
+	// map_points = malloc(sizeof(t_float3 *) * map_size->rows);
+	// while (i < map_size->rows)
+	// {
+	// 	map_points[i] = malloc(sizeof(t_float3) * map_size->columns);
+	// 	ft_bzero(map_points[i++], (sizeof(t_float3) * (map_size->columns)));
+	// }
 	fill_map(map_points, arg);
 	draw(map_points, map_size);
 	// while(j < map_size->rows)
