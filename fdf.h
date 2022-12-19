@@ -64,6 +64,7 @@ typedef struct 	s_data
 	t_map 		*size;
 	t_mat4x4	mat_proj;
 	t_mat4x4	mat_rx;
+	t_mat4x4	mat_ry;
 	t_mat4x4	mat_rz;
 	t_mat4x4	mat_trans;
 	float		joku;
@@ -81,6 +82,8 @@ void		matrix_proj_init(t_mat4x4 *matrix);
 void		matrix_orth_proj_init(t_mat4x4 *matrix);
 void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
+void		matrix_roty_init(t_mat4x4 *matrix, float fTheta);
+
 void		matrix_translate_init(t_mat4x4 *matrix, float x, float y, float z);
 void		draw_init(t_map *map_size, char *arg);
 void		fill_map(t_float3 **map_points, char *arg);

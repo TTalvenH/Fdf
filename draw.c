@@ -4,17 +4,19 @@ void	transform(t_float3 *point, t_data *var)
 {	
 	var->joku += 0.00006;
 	matrix_orth_proj_init(&var->mat_proj);
+	matrix_translate_init(&var->mat_trans, 500.0f, 500.0f, 0);
 	matrix_rotx_init(&var->mat_rx, 1.0f * var->joku);
 	matrix_rotz_init(&var->mat_rz, 1.0f * var->joku);
-	matrix_translate_init(&var->mat_trans, 500.0f, 500.0f, 0);
+	matrix_roty_init(&var->mat_ry, 1.0f * var->joku);
 
- 	multiply_matrix(point, &var->mat_rz);
  	multiply_matrix(point, &var->mat_rx);
+ 	multiply_matrix(point, &var->mat_ry);
+ 	multiply_matrix(point, &var->mat_rz);
+ 	multiply_matrix(point, &var->mat_proj);
+ 	multiply_matrix(point, &var->mat_trans);
 	
  	// point->z = point->z + 25.0f;
 
- 	multiply_matrix(point, &var->mat_proj);
- 	multiply_matrix(point, &var->mat_trans);
 
 // 	point->x += 1.0f; 
 // 	point->y += 1.0f;
