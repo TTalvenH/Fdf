@@ -17,9 +17,9 @@
 # define fAspectRatio HEIGHT / WIDTH
 # define fFovRad 1.0f / tan(fFov * 0.5f / 180.0f * M_PI)
 # define Right 10.0f
-# define Left -10.0f
+# define Left 0.0f
 # define Top 10.0f
-# define Bottom -10.0f
+# define Bottom 0.0f
 
 typedef struct	s_line
 {
