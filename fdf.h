@@ -11,15 +11,15 @@
 
 # define WIDTH 1000.0f
 # define HEIGHT 1000.0f
-# define fNear 0.1f
-# define fFar 10.0f
-# define fFov 90.0f
-# define fAspectRatio HEIGHT / WIDTH
-# define fFovRad 1.0f / tan(fFov * 0.5f / 180.0f * M_PI)
+# define Near 0.1f
+# define Far 10.0f
+# define Fov 90.0f
+# define AspectRatio HEIGHT / WIDTH
+# define FovRad 1.0f / tan(Fov * 0.5f / 180.0f * M_PI)
 # define Right 10.0f
-# define Left 0.0f
+# define Left -10.0f
 # define Top 10.0f
-# define Bottom 0.0f
+# define Bottom -10.0f
 
 typedef struct	s_line
 {
@@ -65,6 +65,7 @@ typedef struct 	s_data
 	t_mat4x4	mat_proj;
 	t_mat4x4	mat_rx;
 	t_mat4x4	mat_rz;
+	t_mat4x4	mat_trans;
 	float		joku;
 
 }				t_data;
@@ -80,6 +81,7 @@ void		matrix_proj_init(t_mat4x4 *matrix);
 void		matrix_orth_proj_init(t_mat4x4 *matrix);
 void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
+void		matrix_translate_init(t_mat4x4 *matrix, float x, float y, float z);
 void		draw_init(t_map *map_size, char *arg);
 void		fill_map(t_float3 **map_points, char *arg);
 void		draw(t_float3 **map_points, t_map *map_size);
