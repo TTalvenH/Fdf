@@ -2,16 +2,20 @@
 
 void	transform(t_float3 *point, t_data *var)
 {	
-	var->joku += 0.00006;
+	var->joku += 0.0000001;
 	matrix_orth_proj_init(&var->mat_proj);
-	matrix_translate_init(&var->mat_trans, 500.0f, 500.0f, 0);
+	matrix_translate_init(&var->mat_trans, 100.0f, 100.0f, 0);
+	matrix_scale_init(&var->mat_scale, 1.0f);
+	matrix_rotate_init(&var->mat_r, var->joku, var->joku, var->joku);
 	matrix_rotx_init(&var->mat_rx, 1.0f * var->joku);
 	matrix_rotz_init(&var->mat_rz, 1.0f * var->joku);
 	matrix_roty_init(&var->mat_ry, 1.0f * var->joku);
 
- 	multiply_matrix(point, &var->mat_rx);
- 	multiply_matrix(point, &var->mat_ry);
- 	multiply_matrix(point, &var->mat_rz);
+ 	// multiply_matrix(point, &var->mat_rx);
+ 	// multiply_matrix(point, &var->mat_ry);
+ 	// multiply_matrix(point, &var->mat_rz);
+ 	multiply_matrix(point, &var->mat_scale);
+ 	multiply_matrix(point, &var->mat_r);
  	multiply_matrix(point, &var->mat_proj);
  	multiply_matrix(point, &var->mat_trans);
 	

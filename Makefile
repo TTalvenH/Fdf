@@ -14,7 +14,7 @@ $(LIBFT):
 
 ifeq ($(OS), Darwin)
 $(NAME): $(SRC)
-	$(CC) $(SRC) ./libft/libft.a -Lmlx -lmlx -Ilibft -Llibft -framework OpenGL -framework AppKit -g -o $(NAME)
+	$(CC) $(SRC) ./libft/libft.a -Lmlx -lmlx -Ilibft -Llibft -framework OpenGL -framework AppKit -O3 -g -o $(NAME)
 
 %.o: %.c
 	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
