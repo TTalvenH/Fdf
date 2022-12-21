@@ -102,17 +102,17 @@ void	matrix_rotx_init(t_mat4x4 *matrix, float fTheta)
 
 void	matrix_rotate_init(t_mat4x4 *matrix, float x, float y, float z)
 {
-	matrix->m[0][0] = cos(x) * cos(y);
-	matrix->m[0][1] = cos(x) * sin(y) * sin(z) - sin(x) * cos(z);
+	matrix->m[0][0] = cos(y) * cos(z);
+	matrix->m[0][1] = sin(x) * sin(y) * cos(z) - cos(x) * sin(z);
 	matrix->m[0][2] = cos(x) * sin(y) * cos(z) + sin(x) * sin(z);
 	matrix->m[0][3] = 0;
-	matrix->m[1][0] = sin(x) * cos(y);
+	matrix->m[1][0] = cos(y) * sin(z);
 	matrix->m[1][1] = sin(x) * sin(y) * sin(z) + cos(x) * cos(z);
-	matrix->m[1][2] = sin(x) * sin(y) * cos(z) - cos(x) * sin(z);
+	matrix->m[1][2] = cos(x) * sin(y) * sin(z) - sin(x) * cos(z);
 	matrix->m[1][3] = 0;
 	matrix->m[2][0] = -sin(y);
-	matrix->m[2][1] = cos(y) * sin(z);
-	matrix->m[2][2] = cos(y) * cos(z);
+	matrix->m[2][1] = sin(x) * cos(y);
+	matrix->m[2][2] = cos(x) * cos(y);
 	matrix->m[2][3] = 0;
 	matrix->m[3][0] = 0;
 	matrix->m[3][2] = 0;

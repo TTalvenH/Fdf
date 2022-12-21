@@ -7,30 +7,21 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 	t_float3	scaled;
 	t_float3	projected;
 
-	var->joku += 0.0000000002;
-	var->joku = 1.0f * var->joku;
-	// if (var->joku > 0.5f)
-		// var->joku = 0;
+	var->joku += 0.00000014;
+	if (var->joku >= 2 * M_PI)
+		var->joku = 0;
 	matrix_orth_proj_init(&var->mat_proj);
 	matrix_translate_init(&var->mat_trans,500.0f, 500.0f, 0);
-	matrix_scale_init(&var->mat_scale, 2.0f);
-	matrix_rotate_init(&var->mat_r, 35.264 * (M_PI/180), 0, 45 * (M_PI/180));
-	matrix_rotx_init(&var->mat_rx, 1.0f * var->joku);
-	matrix_rotz_init(&var->mat_rz, 1.0f * var->joku);
-	matrix_roty_init(&var->mat_ry, 1.0f * var->joku);
+	matrix_scale_init(&var->mat_scale, 0.1f);
+	matrix_rotate_init(&var->mat_r, var->joku, var->joku,  var->joku);
+	matrix_rotx_init(&var->mat_rx, var->joku * (M_PI/180));
+	matrix_rotz_init(&var->mat_rz, 90 * (M_PI/180));
+	matrix_roty_init(&var->mat_ry, 90 * (M_PI/180));
 
  	multiply_matrix(in, &scaled, &var->mat_scale);
  	multiply_matrix(&scaled, &rotated, &var->mat_r);
  	multiply_matrix(&rotated, &projected, &var->mat_proj);
  	multiply_matrix(&projected, out, &var->mat_trans);
-	
- 	// point->z = point->z + 25.0f;
-
-
-// 	point->x += 1.0f; 
-// 	point->y += 1.0f;
-// 	point->x *= 0.5f * WIDTH;
-//  	point->y *= 0.5f * HEIGHT;
 }
 
 void	array2_copy(t_data *var)
