@@ -100,19 +100,19 @@ void	matrix_rotx_init(t_mat4x4 *matrix, float fTheta)
 	matrix->m[3][3] = 1;
 }
 
-void	matrix_rotate_init(t_mat4x4 *matrix, float a, float b, float y)
+void	matrix_rotate_init(t_mat4x4 *matrix, float x, float y, float z)
 {
-	matrix->m[0][0] = cos(a) * cos(b);
-	matrix->m[0][1] = cos(a) * sin(b) * sin(y) - sin(a) * cos(y);
-	matrix->m[0][2] = cos(a) * sin(b) * cos(y) + sin(a) * sin(y);
+	matrix->m[0][0] = cos(x) * cos(y);
+	matrix->m[0][1] = cos(x) * sin(y) * sin(z) - sin(x) * cos(z);
+	matrix->m[0][2] = cos(x) * sin(y) * cos(z) + sin(x) * sin(z);
 	matrix->m[0][3] = 0;
-	matrix->m[1][0] = sin(a) * cos(b);
-	matrix->m[1][1] = sin(a) * sin(b) * sin(y) + cos(a) * cos(y);
-	matrix->m[1][2] = sin(a) * sin(b) * cos(y) - cos(a) * sin(y);
+	matrix->m[1][0] = sin(x) * cos(y);
+	matrix->m[1][1] = sin(x) * sin(y) * sin(z) + cos(x) * cos(z);
+	matrix->m[1][2] = sin(x) * sin(y) * cos(z) - cos(x) * sin(z);
 	matrix->m[1][3] = 0;
-	matrix->m[2][0] = -sin(b);
-	matrix->m[2][1] = cos(b) * sin(y);
-	matrix->m[2][2] = cos(b) * cos(y);
+	matrix->m[2][0] = -sin(y);
+	matrix->m[2][1] = cos(y) * sin(z);
+	matrix->m[2][2] = cos(y) * cos(z);
 	matrix->m[2][3] = 0;
 	matrix->m[3][0] = 0;
 	matrix->m[3][2] = 0;
@@ -154,6 +154,26 @@ void	matrix_translate_init(t_mat4x4 *matrix, float x, float y, float z)
 	matrix->m[2][1] = 0;
 	matrix->m[2][2] = 1.0f;
 	matrix->m[2][3] = z;
+	matrix->m[3][0] = 0;
+	matrix->m[3][2] = 0;
+	matrix->m[3][1] = 0;
+	matrix->m[3][3] = 1;
+}
+
+void	matrix_isometric_init(t_mat4x4 *matrix, float x, float y)
+{
+	matrix->m[0][0] = sqrt(2)/2;
+	matrix->m[0][1] = - sqrt(2)/2;
+	matrix->m[0][2] = x - (sqrt(2) / 2) * (x - y);
+	matrix->m[0][3] = 0;
+	matrix->m[1][0] = sqrt(6)/6;
+	matrix->m[1][1] = sqrt(6)/6;
+	matrix->m[1][2] = y - (sqrt(6) / 6) * (x + y - 2);
+	matrix->m[1][3] = 0;
+	matrix->m[2][0] = sqrt(3)/3;
+	matrix->m[2][1] = sqrt(3)/3;
+	matrix->m[2][2] = 1 - (sqrt(3) / 3) * (x + y + 1);
+	matrix->m[2][3] = 0;
 	matrix->m[3][0] = 0;
 	matrix->m[3][2] = 0;
 	matrix->m[3][1] = 0;

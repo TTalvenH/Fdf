@@ -1,23 +1,28 @@
 #include "fdf.h"
 
-void	transform(t_float3 *point, t_data *var)
+void	transform(t_float3 *in, t_float3 *out, t_data *var)
 {	
-	var->joku += 0.00000003;
+	t_float3	rotated;
+	t_float3	translated;
+	t_float3	scaled;
+	t_float3	projected;
+
+	var->joku += 0.0000000002;
+	var->joku = 1.0f * var->joku;
+	// if (var->joku > 0.5f)
+		// var->joku = 0;
 	matrix_orth_proj_init(&var->mat_proj);
 	matrix_translate_init(&var->mat_trans,500.0f, 500.0f, 0);
-	matrix_scale_init(&var->mat_scale, 0.2f);
-	matrix_rotate_init(&var->mat_r, var->joku, 8.0f + var->joku, 1.0f + var->joku);
+	matrix_scale_init(&var->mat_scale, 2.0f);
+	matrix_rotate_init(&var->mat_r, 35.264 * (M_PI/180), 0, 45 * (M_PI/180));
 	matrix_rotx_init(&var->mat_rx, 1.0f * var->joku);
 	matrix_rotz_init(&var->mat_rz, 1.0f * var->joku);
 	matrix_roty_init(&var->mat_ry, 1.0f * var->joku);
 
- 	// multiply_matrix(point, &var->mat_rx);
- 	// multiply_matrix(point, &var->mat_ry);
- 	// multiply_matrix(point, &var->mat_rz);
- 	multiply_matrix(point, &var->mat_scale);
- 	multiply_matrix(point, &var->mat_r);
- 	multiply_matrix(point, &var->mat_proj);
- 	multiply_matrix(point, &var->mat_trans);
+ 	multiply_matrix(in, &scaled, &var->mat_scale);
+ 	multiply_matrix(&scaled, &rotated, &var->mat_r);
+ 	multiply_matrix(&rotated, &projected, &var->mat_proj);
+ 	multiply_matrix(&projected, out, &var->mat_trans);
 	
  	// point->z = point->z + 25.0f;
 
@@ -55,7 +60,7 @@ int		frame_draw(t_data *var)
 		x = 0;
 		while(x < var->size->columns)
 		{	
-			transform(&var->transform_points[y][x], var);
+			transform(&var->map_points[y][x], &var->transform_points[y][x], var);
 			if (y)
 				plot_line (var, &var->transform_points[y - 1][x],
 						   		&var->transform_points[y][x], var->color);
