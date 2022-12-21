@@ -30,10 +30,10 @@ endif
 
 clean:
 	rm -rf $(OBJ)
+	make clean -C libft
 
 fclean: clean
 	rm -rf $(NAME)
-	make clean -C libft
+	make fclean -C libft
 
 re: fclean all
-	make fclean -C libft
