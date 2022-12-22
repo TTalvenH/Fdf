@@ -68,6 +68,7 @@ typedef struct 	s_data
 	t_mat4x4	mat_iso;
 	t_mat4x4	mat_rx;
 	t_mat4x4	mat_ry;
+	t_mat4x4	mat_rxy;
 	t_mat4x4	mat_rz;
 	t_mat4x4	mat_trans;
 	float		joku;
@@ -86,6 +87,8 @@ void		matrix_orth_proj_init(t_mat4x4 *matrix);
 void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_roty_init(t_mat4x4 *matrix, float fTheta);
+void		matrix_rotxy_init(t_mat4x4 *matrix, float fTheta, float fTheta2);
+
 void		matrix_rotate_init(t_mat4x4 *matrix, float x, float y, float z);
 void		matrix_isometric_init(t_mat4x4 *matrix, float x, float y);
 void		matrix_scale_init(t_mat4x4 *matrix,float x);
