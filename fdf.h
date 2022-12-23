@@ -11,8 +11,8 @@
 
 # define WIDTH 1000.0f
 # define HEIGHT 1000.0f
-# define Near 0.1f
-# define Far 10.0f
+# define Near 100.0f
+# define Far 0.1f
 # define Fov 90.0f
 # define AspectRatio HEIGHT / WIDTH
 # define FovRad 1.0f / tan(Fov * 0.5f / 180.0f * M_PI)
