@@ -97,6 +97,8 @@ void		draw_init(t_map *map_size, char *arg);
 void		fill_map(t_float3 **map_points, char *arg);
 void		draw(t_float3 **map_points, t_map *map_size);
 t_float3	**array2_malloc(size_t y, size_t x);
+void	array2_free(t_float3 **array, size_t y);
+
 
 
 

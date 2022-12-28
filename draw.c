@@ -33,6 +33,15 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
  	multiply_matrix(&rotated2, out, &var->mat_trans);
 }
 
+int		event(int keycode, t_data *var)
+{
+	if (keycode == 53)
+	{
+		mlx_destroy_window(var->mlx, var->mlx_win);
+	}
+	return (0);
+}
+
 void	array2_copy(t_data *var)
 {
 	int i;
@@ -78,6 +87,7 @@ int		frame_draw(t_data *var)
 void		init_hooks(t_data *var)
 {
 	mlx_loop_hook(var->mlx, frame_draw, var);
+	mlx_key_hook(var->mlx_win, &event, var);
 }
 
 void	init_window(t_data *var)
@@ -106,4 +116,6 @@ void	draw(t_float3 **map_points, t_map *map_size)
 
 	init_hooks(&var);
 	mlx_loop(var.mlx);
+	array2_free(map_points, map_size->rows);
+	free(map_size);
 }
