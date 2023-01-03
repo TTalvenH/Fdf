@@ -28,25 +28,24 @@ void	fill_map(t_float3 **map_points, char *arg)
 	int 	xi;
 	int		yi;
 
-	xi = 0;
 	yi = -1;
 
 	if((fd = open (arg, O_RDONLY)) < 0)
 		return ;
 	while (yi++ == -1 || map_line != NULL)
 	{
+		xi = 0;
 		map_line = get_next_line(fd);
 		if (map_line)
 		{
 			line_points = ft_split(map_line, ' ');
 			while (line_points[xi] && map_line)
 			{
-				if (ft_atoi(line_points[xi]) != 0)
-					map_points[yi][xi].z = (float)ft_atoi(line_points[xi]);
+				map_points[yi][xi].y = -(float)ft_atoi(line_points[xi]);
 				map_points[yi][xi].x += (float)xi;
-				map_points[yi][xi++].y += (float)yi;
+				map_points[yi][xi++].z += (float)yi;
 			}
-			while (xi > 0)
+			while (xi >= 0)
 				free (line_points[xi--]);
 			free(line_points);
 			free(map_line);

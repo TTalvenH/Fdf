@@ -9,35 +9,38 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 	t_float3	scaled;
 	t_float3	projected;
 
-	var->joku += 0.0014;
+	var->joku += 0.0024;
 	if (var->joku * (M_PI/180) >= 2 * M_PI)
 		var->joku = 0;
 	matrix_orth_proj_init(&var->mat_proj);
-	matrix_translate_init(&var->mat_trans,500.0f, 500.0f, 0);
-	matrix_scale_init(&var->mat_scale, 20.0f);
+	matrix_translate_init(&var->mat_trans,300.0f, 300.0f, 0);
+	matrix_scale_init(&var->mat_scale, 30.0f);
 	matrix_rotate_init(&var->mat_r, var->joku, var->joku,  var->joku);
-	matrix_rotx_init(&var->mat_rx, 35 * (M_PI/180));
-	matrix_roty_init(&var->mat_ry, 45 * (M_PI/180));
-	matrix_rotz_init(&var->mat_rz, 45 * (M_PI/180));
+	matrix_rotx_init(&var->mat_rx, 45 * (M_PI/180));
+	matrix_roty_init(&var->mat_ry, 35.264 * (M_PI/180));
+	matrix_rotz_init(&var->mat_rz, 0 * (M_PI/180));
 	matrix_rotxy_init(&var->mat_rxy, var->joku * (M_PI/180), var->joku * (M_PI/180));
 
  	multiply_matrix(in, &scaled, &var->mat_scale);
  	// multiply_matrix(&scaled, &rotated, &var->mat_r);
- 	// multiply_matrix(&scaled, &rotated, &var->mat_rz);
  	multiply_matrix(&scaled, &rotated, &var->mat_ry);
- 	multiply_matrix(&rotated, &rotated2, &var->mat_rx);
+ 	multiply_matrix(&rotated, &rotated2, &var->mat_rz);
+ 	multiply_matrix(&rotated2, &rotated3, &var->mat_rx);
+	// rotated3.x = (rotated3.x - rotated3.y) * cos(0.523599);
+	// rotated3.y = -rotated3.z + (rotated3.x + rotated3.y) * sin(0.523599);
  	// multiply_matrix(&scaled, &rotated2, &var->mat_rxy);
-	//  rotated3.x = (rotated2.x - rotated2.y) * cos(0.523599);
-	//  rotated3.y = -rotated2.z + (rotated2.x + rotated2.y) * sin(0.523599);
- 	// multiply_matrix(&rotated2, &projected, &var->mat_proj);
- 	multiply_matrix(&rotated2, out, &var->mat_trans);
+ 	// multiply_matrix(&rotated3, &projected, &var->mat_proj);
+ 	multiply_matrix(&rotated3, out, &var->mat_trans);
 }
 
 int		event(int keycode, t_data *var)
 {
 	if (keycode == 53)
 	{
+		mlx_destroy_image(var->mlx, var->img);
 		mlx_destroy_window(var->mlx, var->mlx_win);
+		free(var->mlx);
+		exit(0);
 	}
 	return (0);
 }
@@ -86,8 +89,8 @@ int		frame_draw(t_data *var)
 
 void		init_hooks(t_data *var)
 {
-	mlx_loop_hook(var->mlx, frame_draw, var);
 	mlx_key_hook(var->mlx_win, &event, var);
+	mlx_loop_hook(var->mlx, frame_draw, var);
 }
 
 void	init_window(t_data *var)
@@ -116,6 +119,4 @@ void	draw(t_float3 **map_points, t_map *map_size)
 
 	init_hooks(&var);
 	mlx_loop(var.mlx);
-	array2_free(map_points, map_size->rows);
-	free(map_size);
 }

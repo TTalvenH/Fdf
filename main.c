@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 		draw_init(&map_xy, argv[1]);
 		printf("%lu and %lu\n", map_xy.rows, map_xy.columns);
 	}
+	printf("closed\n");
 	return (0);
 }
 
