@@ -14,7 +14,7 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 		var->joku = 0;
 	matrix_orth_proj_init(&var->mat_proj);
 	matrix_translate_init(&var->mat_trans,300.0f, 300.0f, 0);
-	matrix_scale_init(&var->mat_scale, 30.0f);
+	matrix_scale_init(&var->mat_scale, 3.0f);
 	matrix_rotate_init(&var->mat_r, var->joku, var->joku,  var->joku);
 	matrix_rotx_init(&var->mat_rx, 45 * (M_PI/180));
 	matrix_roty_init(&var->mat_ry, 35.264 * (M_PI/180));
@@ -29,8 +29,8 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 	// rotated3.x = (rotated3.x - rotated3.y) * cos(0.523599);
 	// rotated3.y = -rotated3.z + (rotated3.x + rotated3.y) * sin(0.523599);
  	// multiply_matrix(&scaled, &rotated2, &var->mat_rxy);
- 	// multiply_matrix(&rotated3, &projected, &var->mat_proj);
- 	multiply_matrix(&rotated3, out, &var->mat_trans);
+ 	multiply_matrix(&rotated3, &projected, &var->mat_proj); 
+ 	multiply_matrix(&projected, out, &var->mat_trans);
 }
 
 int		event(int keycode, t_data *var)
@@ -42,6 +42,11 @@ int		event(int keycode, t_data *var)
 		free(var->mlx);
 		exit(0);
 	}
+	if (keycode == 123)
+		
+	if (keycode == 124)
+	if (keycode == 125)
+	if (keycode == 126)
 	return (0);
 }
 
