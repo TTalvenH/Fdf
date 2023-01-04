@@ -64,14 +64,15 @@ typedef struct 	s_data
 	t_map 		*size;
 	t_mat4x4	mat_proj;
 	t_mat4x4	mat_scale;
-	t_mat4x4	mat_r;
-	t_mat4x4	mat_iso;
 	t_mat4x4	mat_rx;
 	t_mat4x4	mat_ry;
-	t_mat4x4	mat_rxy;
 	t_mat4x4	mat_rz;
 	t_mat4x4	mat_trans;
-	float		joku;
+	float		trans_x;
+	float		trans_y;
+	float		scale;
+	float		theta;
+	int			flag;
 
 }				t_data;
 
@@ -98,6 +99,7 @@ void		fill_map(t_float3 **map_points, char *arg);
 void		draw(t_float3 **map_points, t_map *map_size);
 t_float3	**array2_malloc(size_t y, size_t x);
 void	array2_free(t_float3 **array, size_t y);
+int		set_color(int t, int r, int g, int b);
 
 
 

@@ -1,5 +1,20 @@
 #include "fdf.h"
 
+int	set_color(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+void	init_matrices(t_data *var)
+{
+	matrix_orth_proj_init(&var->mat_proj);
+	matrix_translate_init(&var->mat_trans,var->trans_x, var->trans_y, 0);
+	matrix_scale_init(&var->mat_scale, var->scale);
+	matrix_rotx_init(&var->mat_rx, 45 * (M_PI/180));
+	matrix_roty_init(&var->mat_ry, var->theta * (M_PI/180));
+	matrix_rotz_init(&var->mat_rz, 0 * (M_PI/180));
+}
+
 void	transform(t_float3 *in, t_float3 *out, t_data *var)
 {	
 	t_float3	rotated;
@@ -9,31 +24,23 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 	t_float3	scaled;
 	t_float3	projected;
 
-	var->joku += 0.0024;
-	if (var->joku * (M_PI/180) >= 2 * M_PI)
-		var->joku = 0;
-	matrix_orth_proj_init(&var->mat_proj);
-	matrix_translate_init(&var->mat_trans,300.0f, 300.0f, 0);
-	matrix_scale_init(&var->mat_scale, 3.0f);
-	matrix_rotate_init(&var->mat_r, var->joku, var->joku,  var->joku);
-	matrix_rotx_init(&var->mat_rx, 45 * (M_PI/180));
-	matrix_roty_init(&var->mat_ry, 35.264 * (M_PI/180));
-	matrix_rotz_init(&var->mat_rz, 0 * (M_PI/180));
-	matrix_rotxy_init(&var->mat_rxy, var->joku * (M_PI/180), var->joku * (M_PI/180));
-
+	init_matrices(var);
+	if(var->flag)
+	{
+		var->theta += 0.0024;
+		if (var->theta * (M_PI/180) >= 2 * M_PI)
+			var->theta = 0;
+	}
  	multiply_matrix(in, &scaled, &var->mat_scale);
- 	// multiply_matrix(&scaled, &rotated, &var->mat_r);
  	multiply_matrix(&scaled, &rotated, &var->mat_ry);
  	multiply_matrix(&rotated, &rotated2, &var->mat_rz);
  	multiply_matrix(&rotated2, &rotated3, &var->mat_rx);
-	// rotated3.x = (rotated3.x - rotated3.y) * cos(0.523599);
-	// rotated3.y = -rotated3.z + (rotated3.x + rotated3.y) * sin(0.523599);
- 	// multiply_matrix(&scaled, &rotated2, &var->mat_rxy);
  	multiply_matrix(&rotated3, &projected, &var->mat_proj); 
  	multiply_matrix(&projected, out, &var->mat_trans);
 }
 
-int		event(int keycode, t_data *var)
+
+int		key_event(int keycode, t_data *var)
 {
 	if (keycode == 53)
 	{
@@ -43,10 +50,36 @@ int		event(int keycode, t_data *var)
 		exit(0);
 	}
 	if (keycode == 123)
-		
+		var->trans_x -= 30;
 	if (keycode == 124)
+		var->trans_x += 30;
 	if (keycode == 125)
+		var->trans_y += 30;
 	if (keycode == 126)
+		var->trans_y -= 30;
+	if (keycode == 24)
+		var->trans_y += 30;
+	if (keycode == 27)
+		var->trans_y -= 30;
+	if (keycode == 12)
+		var->flag = 1;
+	if (keycode == 15)
+	{
+		var->trans_x = WIDTH / 2;
+		var->trans_y = HEIGHT / 2;
+		var->scale = 2;
+		var->theta = 35.264;
+		var->flag = 0;
+	}
+	return (0);
+}
+
+int		mouse_event(int keycode, int x, int y, t_data *var)
+{
+	if (keycode == 4)
+		var->scale += 0.1;
+	if (keycode == 5)
+		var->scale -= 0.1;
 	return (0);
 }
 
@@ -94,13 +127,14 @@ int		frame_draw(t_data *var)
 
 void		init_hooks(t_data *var)
 {
-	mlx_key_hook(var->mlx_win, &event, var);
+	mlx_key_hook(var->mlx_win, &key_event, var);
+	mlx_mouse_hook(var->mlx_win, &mouse_event, var);
 	mlx_loop_hook(var->mlx, frame_draw, var);
 }
 
 void	init_window(t_data *var)
 {
-	var->color = 0x0000FF00;
+	var->color = set_color(0, 255, 255 , 255);
 	var->mlx = mlx_init();
 	var->mlx_win = mlx_new_window (var->mlx, WIDTH, HEIGHT, "fdf");
 	var->img = mlx_new_image(var->mlx, WIDTH, HEIGHT);
@@ -112,7 +146,11 @@ void	draw(t_float3 **map_points, t_map *map_size)
 {
 	t_data	var;
 
-	var.joku = 0;
+	var.trans_x = WIDTH / 2;
+	var.trans_y = HEIGHT / 2;
+	var.scale = 2;
+	var.theta = 35.264;
+	var.flag = 0;
 	var.transform_points = array2_malloc(map_size->rows, map_size->columns);
 	var.size = map_size;
 	var.map_points = map_points;
