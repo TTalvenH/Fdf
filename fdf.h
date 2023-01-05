@@ -9,8 +9,8 @@
 # include "./libft/libft.h"
 #include <stdio.h> // ! poistaaaaaaa
 
-# define WIDTH 1000.0f
-# define HEIGHT 1000.0f
+# define WIDTH 1900.0f
+# define HEIGHT 1300.0f
 # define Near 0.1f
 # define Far 100.0f
 # define Fov 90.0f
@@ -81,6 +81,7 @@ void		translate_vector(t_float3 *vector, float x, float y, float z);
 void		plot_line_low(t_data *data, t_float3 *p1, t_float3 *p2, int color);
 void		plot_line_high(t_data *data, t_float3 *p1, t_float3 *p2, int color);
 void		plot_line(t_data *data, t_float3 *p1, t_float3 *p2, int color);
+void 		plot_line1(t_data *data, t_float3 *p1, t_float3 *p2, int color);
 t_map		map_size(char *arg);
 void		multiply_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
 void		matrix_proj_init(t_mat4x4 *matrix);

@@ -151,15 +151,11 @@ void	draw(t_float3 **map_points, t_map *map_size)
 	var.scale = 2;
 	var.theta = 35.264;
 	var.flag = 0;
+	var.color = 255;
 	var.transform_points = array2_malloc(map_size->rows, map_size->columns);
 	var.size = map_size;
 	var.map_points = map_points;
-	// matrix_proj_init(&var.mat_proj);
-	// matrix_rotx_init(&var.mat_rx, 0);
-	// matrix_rotz_init(&var.mat_rz, 0);
 	init_window(&var);
-	// frame_draw(&var);
-
 	init_hooks(&var);
 	mlx_loop(var.mlx);
 }
