@@ -148,7 +148,7 @@ void	draw(t_float3 **map_points, t_map *map_size)
 
 	var.trans_x = WIDTH / 2;
 	var.trans_y = HEIGHT / 2;
-	var.scale = 2;
+	var.scale = 2.0f;
 	var.theta = 35.264;
 	var.flag = 0;
 	var.color = 255;

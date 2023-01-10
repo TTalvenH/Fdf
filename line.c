@@ -1,5 +1,11 @@
 #include "fdf.h"
 
+int		select_color(float y)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+
 void	plot_line_low(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 {
 	t_line var;
@@ -85,7 +91,7 @@ void plot_line1(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 	var.y = (int)p1->y;
 	var.x = (int)p1->x;
 	var.dx = abs((int)p2->x - (int)p1->x);
-	var.dy = abs((int)p2->y - (int)p1->y);
+	var.dy = -abs((int)p2->y - (int)p1->y);
 	int sx = p1->x < p2->x ? 1 : -1;
 	int sy = p1->y < p2->y ? 1 : -1;
 	int err = var.dx + var.dy, e2; /* error value e_xy */
@@ -95,15 +101,17 @@ void plot_line1(t_data *data, t_float3 *p1, t_float3 *p2, int color)
 			e2 = 2 * err;
 			if (e2 >= var.dy) 
 			{ /* e_xy+e_x > 0 */
-				if (var.x == p2->x) 
+				if (var.x == (int)p2->x) 
 					break;
-				err += var.dy; var.x += sx;
+				err += var.dy; 
+				var.x += sx;
 			}
 			if (e2 <= var.dx) 
 			{ /* e_xy+e_y < 0 */
-				if (var.y == p2->y) 
+				if (var.y == (int)p2->y) 
 					break;
-				err += var.dx; var.y += sy;
+				err += var.dx; 
+				var.y += sy;
 			}
 	}
 }
