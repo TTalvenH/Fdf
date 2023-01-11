@@ -1,10 +1,10 @@
 #include "fdf.h"
 
-t_map	map_size(char *arg)
+t_arrsize	get_size(char *arg)
 {
 	char		*map_line;
 	char		**line_points;
-	t_map		map = {};
+	t_arrsize	map = {};
 	int			fd;
 	int			i;
 

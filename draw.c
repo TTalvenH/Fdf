@@ -1,9 +1,5 @@
 #include "fdf.h"
 
-int	set_color(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
 
 void	init_matrices(t_data *var)
 {
@@ -90,8 +86,8 @@ void	array2_copy(t_data *var)
 	i = 0;
 	while (i < var->size->rows)
 	{
-		ft_memcpy(var->transform_points[i], var->map_points[i], 
-							sizeof(t_float3) * var->size->columns);
+		ft_memcpy(var->new_p[i], var->map_points[i], 
+					sizeof(t_float3) * var->size->columns);
 		i++;
 	}
 }
@@ -110,13 +106,11 @@ int		frame_draw(t_data *var)
 		x = 0;
 		while(x < var->size->columns)
 		{	
-			transform(&var->map_points[y][x], &var->transform_points[y][x], var);
+			transform(&var->map_points[y][x], &var->new_p[y][x], var);
 			if (y)
-				plot_line (var, &var->transform_points[y - 1][x],
-						   		&var->transform_points[y][x], var->color);
+				plot_line (var, &var->new_p[y - 1][x], &var->new_p[y][x]);
 			if (x)
-				plot_line (var, &var->transform_points[y][x - 1],
-						   		&var->transform_points[y][x], var->color);
+				plot_line (var, &var->new_p[y][x - 1], &var->new_p[y][x]);
 			x++;
 		}
 		y++;
@@ -134,7 +128,6 @@ void		init_hooks(t_data *var)
 
 void	init_window(t_data *var)
 {
-	var->color = set_color(0, 255, 255 , 255);
 	var->mlx = mlx_init();
 	var->mlx_win = mlx_new_window (var->mlx, WIDTH, HEIGHT, "fdf");
 	var->img = mlx_new_image(var->mlx, WIDTH, HEIGHT);
@@ -142,20 +135,9 @@ void	init_window(t_data *var)
 								 &var->line_lenght, &var->endian);
 }
 
-void	draw(t_float3 **map_points, t_map *map_size)
+void	draw(t_data *var)
 {
-	t_data	var;
-
-	var.trans_x = WIDTH / 2;
-	var.trans_y = HEIGHT / 2;
-	var.scale = 2.0f;
-	var.theta = 35.264;
-	var.flag = 0;
-	var.color = 255;
-	var.transform_points = array2_malloc(map_size->rows, map_size->columns);
-	var.size = map_size;
-	var.map_points = map_points;
-	init_window(&var);
-	init_hooks(&var);
-	mlx_loop(var.mlx);
+	init_window(var);
+	init_hooks(var);
+	mlx_loop(var->mlx);
 }

@@ -1,117 +1,82 @@
 #include "fdf.h"
 
-int		select_color(float y)
+
+void	plot_line_low(t_data *var, t_line *pixel, t_float3 *p1, t_float3 *p2)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
-}
+	pixel->x = (int)p1->x;
+	pixel->y = (int)p1->y;
+	pixel->dx = (int)p2->x - (int)p1->x;
+	pixel->dy = (int)p2->y - (int)p1->y;
 
-
-void	plot_line_low(t_data *data, t_float3 *p1, t_float3 *p2, int color)
-{
-	t_line var;
-
-	var.x = (int)p1->x;
-	var.y = (int)p1->y;
-	var.dx = (int)p2->x - (int)p1->x;
-	var.dy = (int)p2->y - (int)p1->y;
-	var.sign = 1;
-	if (var.dy < 0)
+	if (pixel->dy < 0)
 	{
-		var.sign = -1;
-		var.dy = var.dy * -1;
+		pixel->sign = -1;
+		pixel->dy = pixel->dy * -1;
 	}
-	var.d = (2 * var.dy) - var.dx;
-	while (var.x < p2->x)
+	pixel->d = (2 * pixel->dy) - pixel->dx;
+	while (pixel->x < p2->x)
 	{
-		if ((var.x > 0 && var.x < WIDTH) && (var.y > 0 && var.y < HEIGHT))
-			my_mlx_pixel_put(data, var.x, var.y, set_color(0, 0, 200, 0));
-		var.x++;
-		if (var.d > 0)
+		pixel->color = set_color(0, 255, 0, 0);
+		if ((pixel->x > 0 && pixel->x < WIDTH) && (pixel->y > 0 && pixel->y < HEIGHT))
+			my_mlx_pixel_put(var, pixel->x, pixel->y, pixel->color);
+		pixel->x++;
+		if (pixel->d > 0)
 		{
-			var.y = var.y + var.sign;
-			var.d = var.d + (2 * (var.dy - var.dx));
+			pixel->y = pixel->y + pixel->sign;
+			pixel->d = pixel->d + (2 * (pixel->dy - pixel->dx));
 		}
 		else
-			var.d = var.d + 2 * var.dy;
+			pixel->d = pixel->d + 2 * pixel->dy;
 	}
 }
 
-void	plot_line_high(t_data *data, t_float3 *p1, t_float3 *p2, int color)
+void	plot_line_high(t_data *var, t_line *pixel, t_float3 *p1, t_float3 *p2)
 {
-	t_line var;
+	pixel->x = (int)p1->x;
+	pixel->y = (int)p1->y;
+	pixel->dx = (int)p2->x - (int)p1->x;
+	pixel->dy = (int)p2->y - (int)p1->y;
 
-	var.y = (int)p1->y;
-	var.x = (int)p1->x;
-	var.dx = (int)p2->x - (int)p1->x;
-	var.dy = (int)p2->y - (int)p1->y;
-	var.sign = 1;
-	if (var.dx < 0)
+	if (pixel->dx < 0)
 	{
-		var.sign = -1;
-		var.dx = var.dx * -1;
+		pixel->sign = -1;
+		pixel->dx = pixel->dx * -1;
 	}
-	var.d = (2 * var.dx) - var.dy;
-	while (var.y < p2->y)
+	pixel->d = (2 * pixel->dx) - pixel->dy;
+	while (pixel->y < p2->y)
 	{
-		if ((var.x > 0 && var.x < WIDTH) && (var.y > 0 && var.y < HEIGHT))
-			my_mlx_pixel_put(data, var.x, var.y, set_color(0, 0, 200, 0));
-		var.y++;
-		if (var.d > 0)
+		pixel->color = set_color(0, 255, 0, 0);
+		if ((pixel->x > 0 && pixel->x < WIDTH) && (pixel->y > 0 && pixel->y < HEIGHT))
+			my_mlx_pixel_put(var, pixel->x, pixel->y, pixel->color);
+		pixel->y++;
+		if (pixel->d > 0)
 		{
-			var.x = var.x + var.sign;
-			var.d = var.d + (2 * (var.dx - var.dy));
+			pixel->x = pixel->x + pixel->sign;
+			pixel->d = pixel->d + (2 * (pixel->dx - pixel->dy));
 		}
 		else
-			var.d = var.d + 2 * var.dx;
+			pixel->d = pixel->d + 2 * pixel->dx;
 	}
 }
 
-void	plot_line(t_data *data, t_float3 *p1, t_float3 *p2, int color)
+void	plot_line(t_data *var, t_float3 *p1, t_float3 *p2)
 {
+	t_line pixel;
+
+	pixel.sign = 1;
+
 	if (fabs(p2->y - p1->y) < fabs(p2->x - p1->x))
 	{
 		if (p1->x > p2->x)
-			plot_line_low(data, p2, p1, color);
+			plot_line_low(var, &pixel, p2, p1);
 		else
-			plot_line_low(data, p1, p2, color);
+			plot_line_low(var, &pixel, p1, p2);
 	}
 	else
 	{
 		if (p1->y > p2->y)
-			plot_line_high(data, p2, p1, color);
+			plot_line_high(var, &pixel, p2, p1);
 		else
-			plot_line_high(data, p1, p2, color);
-	}
-}
-
-void plot_line1(t_data *data, t_float3 *p1, t_float3 *p2, int color)
-{
-	t_line var;
-
-	var.y = (int)p1->y;
-	var.x = (int)p1->x;
-	var.dx = abs((int)p2->x - (int)p1->x);
-	var.dy = -abs((int)p2->y - (int)p1->y);
-	int sx = p1->x < p2->x ? 1 : -1;
-	int sy = p1->y < p2->y ? 1 : -1;
-	int err = var.dx + var.dy, e2; /* error value e_xy */
-	while (1)
-	{ /* loop */
-			my_mlx_pixel_put(data, var.x, var.y, set_color(0, 0, 200, 0));
-			e2 = 2 * err;
-			if (e2 >= var.dy) 
-			{ /* e_xy+e_x > 0 */
-				if (var.x == (int)p2->x) 
-					break;
-				err += var.dy; 
-				var.x += sx;
-			}
-			if (e2 <= var.dx) 
-			{ /* e_xy+e_y < 0 */
-				if (var.y == (int)p2->y) 
-					break;
-				err += var.dx; 
-				var.y += sy;
-			}
+			plot_line_high(var, &pixel, p1, p2);
 	}
 }
