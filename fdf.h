@@ -11,8 +11,8 @@
 
 # define WIDTH 1900.0f
 # define HEIGHT 1300.0f
-# define Near 0.1f
-# define Far 100.0f
+# define Near 1
+# define Far -1
 # define Right 10.0f
 # define Left -10.0f
 # define Top 10.0f
@@ -71,6 +71,8 @@ typedef struct 	s_data
 	float		scale;
 	float		theta;
 	int			flag;
+	int			z_max;
+	int			z_min;
 
 }				t_data;
 
@@ -89,11 +91,17 @@ void		matrix_roty_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_scale_init(t_mat4x4 *matrix,float x);
 void		matrix_translate_init(t_mat4x4 *matrix, float x, float y, float z);
 void		draw_init(t_arrsize *map_size, char *arg);
-void		fill_map(t_float3 **map_points, char *arg);
+void		fill_map(t_data *var, char *arg);
 void		draw(t_data *var);
 t_float3	**array2_malloc(size_t y, size_t x);
-void		array2_free(t_float3 **array, size_t y);
-int			set_color(int t, int r, int g, int b);
+void		array2_free(void **array, size_t y);
+int			color_interpolate(int color1, int color2, float percent);
+void 		set_color(t_data *var);
+float		percent(float val, float first, float second);
+void		change_altidude(t_data *var, int n);
+
+
+
 
 
 

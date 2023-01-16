@@ -16,7 +16,7 @@ void	plot_line_low(t_data *var, t_line *pixel, t_float3 *p1, t_float3 *p2)
 	pixel->d = (2 * pixel->dy) - pixel->dx;
 	while (pixel->x < p2->x)
 	{
-		pixel->color = set_color(0, 255, 0, 0);
+		pixel->color = color_interpolate(p1->color, p2->color, percent(pixel->x, p1->x, p2->x));
 		if ((pixel->x > 0 && pixel->x < WIDTH) && (pixel->y > 0 && pixel->y < HEIGHT))
 			my_mlx_pixel_put(var, pixel->x, pixel->y, pixel->color);
 		pixel->x++;
@@ -45,7 +45,7 @@ void	plot_line_high(t_data *var, t_line *pixel, t_float3 *p1, t_float3 *p2)
 	pixel->d = (2 * pixel->dx) - pixel->dy;
 	while (pixel->y < p2->y)
 	{
-		pixel->color = set_color(0, 255, 0, 0);
+		pixel->color = color_interpolate(p1->color, p2->color, percent(pixel->y, p1->y, p2->y));
 		if ((pixel->x > 0 && pixel->x < WIDTH) && (pixel->y > 0 && pixel->y < HEIGHT))
 			my_mlx_pixel_put(var, pixel->x, pixel->y, pixel->color);
 		pixel->y++;

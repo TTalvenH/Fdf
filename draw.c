@@ -7,6 +7,7 @@ void	init_matrices(t_data *var)
 	matrix_translate_init(&var->mat_trans,var->trans_x, var->trans_y, 0);
 	matrix_scale_init(&var->mat_scale, var->scale);
 	matrix_rotx_init(&var->mat_rx, 45 * (M_PI/180));
+	// matrix_rotx_init(&var->mat_rx, 0 * (M_PI/180));
 	matrix_roty_init(&var->mat_ry, var->theta * (M_PI/180));
 	matrix_rotz_init(&var->mat_rz, 0 * (M_PI/180));
 }
@@ -21,12 +22,12 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 	t_float3	projected;
 
 	init_matrices(var);
-	if(var->flag)
-	{
-		var->theta += 0.0024;
-		if (var->theta * (M_PI/180) >= 2 * M_PI)
-			var->theta = 0;
-	}
+	// if(var->flag)
+	// {
+	// 	var->theta += 0.0024;
+	// 	if (var->theta * (M_PI/180) >= 2 * M_PI)
+	// 		var->theta = 0;
+	// }
  	multiply_matrix(in, &scaled, &var->mat_scale);
  	multiply_matrix(&scaled, &rotated, &var->mat_ry);
  	multiply_matrix(&rotated, &rotated2, &var->mat_rz);
@@ -57,8 +58,18 @@ int		key_event(int keycode, t_data *var)
 		var->trans_y += 30;
 	if (keycode == 27)
 		var->trans_y -= 30;
+	if (keycode == 69)
+		change_altidude(var, -1);
+	if (keycode == 78)
+		change_altidude(var, 1);
 	if (keycode == 12)
-		var->flag = 1;
+	{
+		if(!var->flag)
+			var->flag = 1;
+		else
+			var->flag = 0;
+
+	}
 	if (keycode == 15)
 	{
 		var->trans_x = WIDTH / 2;
@@ -72,10 +83,22 @@ int		key_event(int keycode, t_data *var)
 
 int		mouse_event(int keycode, int x, int y, t_data *var)
 {
-	if (keycode == 4)
-		var->scale += 0.1;
-	if (keycode == 5)
-		var->scale -= 0.1;
+	if(var->flag == 1)
+	{
+		if (keycode == 4)
+			var->theta += 10;
+		if (keycode == 5)
+			var->theta -= 10;
+		if (var->theta * (M_PI/180) >= 2 * M_PI)
+			var->theta = 0;
+	}
+	else
+	{
+		if (keycode == 4)
+			var->scale += 0.05;
+		if (keycode == 5)
+			var->scale -= 0.05;
+	}
 	return (0);
 }
 
