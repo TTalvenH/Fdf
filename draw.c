@@ -4,10 +4,10 @@
 void	init_matrices(t_data *var)
 {
 	matrix_orth_proj_init(&var->mat_proj);
+	matrix_proj_init(&var->mat_proj2);
 	matrix_translate_init(&var->mat_trans,var->trans_x, var->trans_y, 0);
 	matrix_scale_init(&var->mat_scale, var->scale);
 	matrix_rotx_init(&var->mat_rx, 45 * (M_PI/180));
-	// matrix_rotx_init(&var->mat_rx, 0 * (M_PI/180));
 	matrix_roty_init(&var->mat_ry, var->theta * (M_PI/180));
 	matrix_rotz_init(&var->mat_rz, 0 * (M_PI/180));
 }
@@ -20,32 +20,41 @@ void	transform(t_float3 *in, t_float3 *out, t_data *var)
 	t_float3	translated;
 	t_float3	scaled;
 	t_float3	projected;
+	t_float3	projected2;
 
 	init_matrices(var);
-	// if(var->flag)
-	// {
-	// 	var->theta += 0.0024;
-	// 	if (var->theta * (M_PI/180) >= 2 * M_PI)
-	// 		var->theta = 0;
-	// }
+	if(var->altitude != 0 && in->y != 0)
+	{
+		in->y += var->altitude;
+		if(in->y < var->z_min)
+			var->z_min = in->y;
+		if(in->y > var->z_max)
+			var->z_max = in->y;
+	}
+	set_color(in, var);
  	multiply_matrix(in, &scaled, &var->mat_scale);
  	multiply_matrix(&scaled, &rotated, &var->mat_ry);
  	multiply_matrix(&rotated, &rotated2, &var->mat_rz);
  	multiply_matrix(&rotated2, &rotated3, &var->mat_rx);
  	multiply_matrix(&rotated3, &projected, &var->mat_proj); 
+ 	// multiply_matrix(&projected, out, &var->mat_proj2); 
  	multiply_matrix(&projected, out, &var->mat_trans);
 }
 
+int		destroy_data(t_data *var)
+{
+		mlx_destroy_image(var->mlx, var->img);
+		if(var->mlx_win)
+			mlx_destroy_window(var->mlx, var->mlx_win);
+		free(var->mlx);
+		exit(0);
+		return (0);
+}
 
 int		key_event(int keycode, t_data *var)
 {
 	if (keycode == 53)
-	{
-		mlx_destroy_image(var->mlx, var->img);
-		mlx_destroy_window(var->mlx, var->mlx_win);
-		free(var->mlx);
-		exit(0);
-	}
+			destroy_data(var);
 	if (keycode == 123)
 		var->trans_x -= 30;
 	if (keycode == 124)
@@ -59,9 +68,9 @@ int		key_event(int keycode, t_data *var)
 	if (keycode == 27)
 		var->trans_y -= 30;
 	if (keycode == 69)
-		change_altidude(var, -1);
+		var->altitude -= 1; 
 	if (keycode == 78)
-		change_altidude(var, 1);
+		var->altitude += 1; 
 	if (keycode == 12)
 	{
 		if(!var->flag)
@@ -77,6 +86,7 @@ int		key_event(int keycode, t_data *var)
 		var->scale = 2;
 		var->theta = 35.264;
 		var->flag = 0;
+		var->altitude = 0;
 	}
 	return (0);
 }
@@ -89,8 +99,6 @@ int		mouse_event(int keycode, int x, int y, t_data *var)
 			var->theta += 10;
 		if (keycode == 5)
 			var->theta -= 10;
-		if (var->theta * (M_PI/180) >= 2 * M_PI)
-			var->theta = 0;
 	}
 	else
 	{
@@ -129,7 +137,7 @@ int		frame_draw(t_data *var)
 		x = 0;
 		while(x < var->size->columns)
 		{	
-			transform(&var->map_points[y][x], &var->new_p[y][x], var);
+			transform(&var->new_p[y][x], &var->new_p[y][x], var);
 			if (y)
 				plot_line (var, &var->new_p[y - 1][x], &var->new_p[y][x]);
 			if (x)
@@ -146,6 +154,7 @@ void		init_hooks(t_data *var)
 {
 	mlx_key_hook(var->mlx_win, &key_event, var);
 	mlx_mouse_hook(var->mlx_win, &mouse_event, var);
+	mlx_hook(var->mlx_win, ON_DESTROY, 0, destroy_data, var);
 	mlx_loop_hook(var->mlx, frame_draw, var);
 }
 

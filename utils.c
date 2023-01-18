@@ -34,22 +34,3 @@ float	percent(float val, float first, float second)
 	return ((val - first) / (second - first));
 }
 
-void	change_altidude(t_data *var, int n)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while(i < var->size->rows)
-	{
-		j = 0;
-		while(j < var->size->columns)
-		{
-			if(var->map_points[i][j].y != 0)
-				var->map_points[i][j].y += n; 
-			j++;
-		}
-		i++;
-	}
-}

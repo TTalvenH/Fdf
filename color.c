@@ -14,27 +14,12 @@ int	color_interpolate(int color1, int color2, float percent)
 			(int)((b2 - b1) * percent + b1));
 }
 
-void set_color(t_data *var)
+void set_color(t_float3 *in, t_data *var)
 {
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while(i < var->size->rows)
-	{
-		j = 0;
-		while(j < var->size->columns)
-		{
-			if(var->map_points[i][j].y < 0)
-				var->map_points[i][j].color = color_interpolate(
-				0x006F7231, 0x00C8040E,var->map_points[i][j].y / var->z_min);
-			else if(var->map_points[i][j].y > 0)
-				var->map_points[i][j].color = color_interpolate(
-				0x006F7231, 0x003E58B6, var->map_points[i][j].y / var->z_max);
-			else var->map_points[i][j].color = 0x006F7231;
-			j++;
-		}
-		i++;
-	}
+	if(in->y < 0)
+		in->color = color_interpolate(0x00FFFFFF, 0x00FF0000, in->y / var->z_min);
+	else if(in->y > 0)
+		in->color = color_interpolate(0x00FFFFFF, 0x000000FF, in->y / var->z_max);
+	else 
+		in->color = 0x00FFFFFF;
 }	

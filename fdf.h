@@ -11,12 +11,16 @@
 
 # define WIDTH 1900.0f
 # define HEIGHT 1300.0f
-# define Near 1
-# define Far -1
-# define Right 10.0f
-# define Left -10.0f
-# define Top 10.0f
-# define Bottom -10.0f
+# define FOV 90
+# define AspectRatio HEIGHT / WIDTH
+# define Near -1.0f
+# define Far 1.0f
+# define Right -1.0f
+# define Left 1.0f
+# define Top -1.0f
+# define Bottom 1.0f
+
+
 
 typedef struct	s_line
 {
@@ -61,6 +65,7 @@ typedef struct 	s_data
 	t_float3	**new_p;
 	t_arrsize 	*size;
 	t_mat4x4	mat_proj;
+	t_mat4x4	mat_proj2;
 	t_mat4x4	mat_scale;
 	t_mat4x4	mat_rx;
 	t_mat4x4	mat_ry;
@@ -73,8 +78,18 @@ typedef struct 	s_data
 	int			flag;
 	int			z_max;
 	int			z_min;
-
+	int			altitude;
 }				t_data;
+
+enum {
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+};
 
 void		my_mlx_pixel_put(t_data *var, int x, int y, int color);
 void		translate_vector(t_float3 *vector, float x, float y, float z);
@@ -85,6 +100,8 @@ void 		plot_line1(t_data *var, t_float3 *p1, t_float3 *p2);
 t_arrsize	get_size(char *arg);
 void		multiply_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
 void		matrix_orth_proj_init(t_mat4x4 *matrix);
+void		matrix_pers_proj_init(t_mat4x4 *matrix);
+void		matrix_proj_init(t_mat4x4 *matrix);
 void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_roty_init(t_mat4x4 *matrix, float fTheta);
@@ -96,10 +113,8 @@ void		draw(t_data *var);
 t_float3	**array2_malloc(size_t y, size_t x);
 void		array2_free(void **array, size_t y);
 int			color_interpolate(int color1, int color2, float percent);
-void 		set_color(t_data *var);
+void		set_color(t_float3 *in, t_data *var);
 float		percent(float val, float first, float second);
-void		change_altidude(t_data *var, int n);
-
 
 
 

@@ -25,7 +25,7 @@ void	fill_map(t_data *var, char *arg)
 		line_points = ft_split(map_line, ' ');
 		while (line_points[xi] && map_line)
 		{
-			var->map_points[yi][xi].y = -(float)ft_atoi(line_points[xi]);
+			var->map_points[yi][xi].y = (float)ft_atoi(line_points[xi]);
 			set_z_max_min(var, var->map_points[yi][xi].y);
 			var->map_points[yi][xi].x += (float)xi - var->size->columns / 2;
 			var->map_points[yi][xi++].z += (float)yi - var->size->rows / 2;
@@ -42,35 +42,17 @@ void	draw_init(t_arrsize *map_size, char *arg)
 	
 	var.trans_x = WIDTH / 2;
 	var.trans_y = HEIGHT / 2;
-	var.scale = 2.0f;
+	var.scale = 20.0f;
 	var.theta = 0;
 	var.theta = 35.264;
 	var.flag = 0;
 	var.map_points = array2_malloc(map_size->rows, map_size->columns);
 	var.new_p = array2_malloc(map_size->rows, map_size->columns);
 	var.size = map_size;
-	var. z_max = 0;
-	var. z_min = 0;
-
+	var.z_max = 0;
+	var.z_min = 0;
+	var.altitude = 0; 
 
 	fill_map(&var, arg);
-	set_color(&var);
-
-	int			j, k;
-	j = 0;
-	k = 0;
-	while(j < map_size->rows)
-	{
-		while (k < map_size->columns)
-		{
-			printf("%.1f,", var.map_points[j][k].x);
-			printf("%.1f,", var.map_points[j][k].z);
-			printf("%.1f ", var.map_points[j][k++].y);
-		}
-		printf("\n");
-		j++;
-		k = 0;
-	}
-	
 	draw(&var);
 }
