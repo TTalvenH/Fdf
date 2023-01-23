@@ -25,7 +25,7 @@ void	fill_map(t_data *var, char *arg)
 		line_points = ft_split(map_line, ' ');
 		while (line_points[xi] && map_line)
 		{
-			var->map_points[yi][xi].y = (float)ft_atoi(line_points[xi]);
+			var->map_points[yi][xi].y = -(float)ft_atoi(line_points[xi]);
 			set_z_max_min(var, var->map_points[yi][xi].y);
 			var->map_points[yi][xi].x += (float)xi - var->size->columns / 2;
 			var->map_points[yi][xi++].z += (float)yi - var->size->rows / 2;
@@ -36,23 +36,29 @@ void	fill_map(t_data *var, char *arg)
 	}
 }
 
-void	draw_init(t_arrsize *map_size, char *arg)
+void	data_init(t_data *var, t_arrsize *map_size, char *arg)
 {
-	t_data		var;
-	
-	var.trans_x = WIDTH / 2;
-	var.trans_y = HEIGHT / 2;
-	var.scale = 20.0f;
-	var.theta = 0;
-	var.theta = 35.264;
-	var.flag = 0;
-	var.map_points = array2_malloc(map_size->rows, map_size->columns);
-	var.new_p = array2_malloc(map_size->rows, map_size->columns);
-	var.size = map_size;
-	var.z_max = 0;
-	var.z_min = 0;
-	var.altitude = 0; 
+	var->trans_x = WIDTH / 2;
+	var->trans_y = HEIGHT / 2;
+	var->scale = 25.0f;
+	var->x_theta = 45;
+	var->y_theta = 35.264;
+	var->z_theta = 0;
+	var->flag = 0;
+	var->map_points = array2_malloc(map_size->rows, map_size->columns);
+	var->new_p = array2_malloc(map_size->rows, map_size->columns);
+	var->size = map_size;
+	var->z_max = 0;
+	var->z_min = 0;
+	var->x_rotate_flag = 0;
+	var->y_rotate_flag = 0;
+	var->z_rotate_flag = 0;
 
-	fill_map(&var, arg);
-	draw(&var);
+	zero_matrix4x4(&var->mat_scale);
+	zero_matrix4x4(&var->mat_rx);
+	zero_matrix4x4(&var->mat_ry);
+	zero_matrix4x4(&var->mat_rz);
+	zero_matrix4x4(&var->mat_trans);
+	zero_matrix4x4(&var->mat_transform);
+	fill_map(var, arg);
 }

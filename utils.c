@@ -25,6 +25,19 @@ void	array2_free(void **array, size_t y)
 	free (array);
 }
 
+void	array2_copy(t_data *var)
+{
+	int i;
+
+	i = 0;
+	while (i < var->size->rows)
+	{
+		ft_memcpy(var->new_p[i], var->map_points[i], 
+					sizeof(t_float3) * var->size->columns);
+		i++;
+	}
+}
+
 float	percent(float val, float first, float second)
 {
 	if (val == first)
@@ -34,3 +47,24 @@ float	percent(float val, float first, float second)
 	return ((val - first) / (second - first));
 }
 
+void	rotate(t_data *var)
+{
+	if(var->y_rotate_flag == 1)
+	{
+		var->y_theta += 1;
+		if (var->y_theta * (M_PI/180) >= 2 * M_PI)
+			var->y_theta = 0;
+	}
+	if(var->x_rotate_flag == 1)
+	{
+		var->x_theta += 1;
+		if (var->x_theta * (M_PI/180) >= 2 * M_PI)
+			var->x_theta = 0;
+	}
+	if(var->z_rotate_flag == 1)
+	{
+		var->z_theta += 1;
+		if (var->z_theta * (M_PI/180) >= 2 * M_PI)
+			var->z_theta = 0;
+	}
+}
