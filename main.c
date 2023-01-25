@@ -1,19 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 18:03:04 by ttalvenh          #+#    #+#             */
+/*   Updated: 2023/01/25 18:03:07 by ttalvenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 #include <stdio.h>
 
-int main(int argc, char **argv)
+void	clean_exit(t_data *var)
+{
+	if (var->map_line != NULL)
+		free(var->map_line);
+	if (var->map_points != NULL)
+		array2_free((void **)var->map_points, var->map_size.rows);
+	if (var->new_p != NULL)
+		array2_free((void **)var->new_p, var->map_size.rows);
+	if (var->img != NULL)
+		mlx_destroy_image(var->mlx, var->img);
+	if (var->mlx_win != NULL)
+		mlx_destroy_window(var->mlx, var->mlx_win);
+	perror("Error: ");
+	exit(1);
+}
+
+int	main(int argc, char **argv)
 {
 	t_data		var;
-	t_arrsize 	map_size;
 
+	ft_bzero(&var, sizeof(t_data));
 	if (argc == 2)
 	{
-		map_size = get_size(argv[1]);
-		if (!map_size.rows && !map_size.columns)
-			return (1);
-		data_init(&var, &map_size, argv[1]);
+		get_size(&var, argv[1]);
+		if (!var.map_size.rows && !var.map_size.columns)
+			clean_exit(&var);
+		data_init(&var, argv[1]);
 		draw(&var);
-		printf("%lu and %lu\n", map_size.rows, map_size.columns);
+		printf("%lu and %lu\n", var.map_size.rows, var.map_size.columns);
 	}
 	printf("closed\n");
 	return (0);

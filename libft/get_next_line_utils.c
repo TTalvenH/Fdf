@@ -40,12 +40,12 @@ char	*ft_gnl_strndup(const char *s1, size_t n)
 	return (s1_dup);
 }
 
-void	ft_gnl_strlcat(char *dst, const char *src, size_t dstsize, size_t dst_len)
+void	ft_gnl_strlcat(char *dst, const char *src, size_t dstsize, size_t dstl)
 {
-	if (dstsize != 0 && dstsize > dst_len)
+	if (dstsize != 0 && dstsize > dstl)
 	{
-		dst += dst_len;
-		while ((dstsize - dst_len - 1) != 0 && *src != '\0')
+		dst += dstl;
+		while ((dstsize - dstl - 1) != 0 && *src != '\0')
 		{
 			*dst = *src;
 			dst++;

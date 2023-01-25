@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 18:04:32 by ttalvenh          #+#    #+#             */
+/*   Updated: 2023/01/25 18:04:34 by ttalvenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 # include <mlx.h>
@@ -6,10 +18,14 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <string.h>
+# include <stdio.h>
 # include "./libft/libft.h"
- 
 # define WIDTH 1400.0f
 # define HEIGHT 1200.0f
+
+# define WHITE 0x00FFFFFF
+# define RED 0x00FF0000
+# define BLUE 0x000000FF
 
 enum{
 	MAC_ESC = 53,
@@ -33,7 +49,7 @@ enum{
 	ON_DESTROY = 17
 };
 
-typedef struct	s_line
+typedef struct s_line
 {
 	int			dx;
 	int			dy;
@@ -44,7 +60,7 @@ typedef struct	s_line
 	int			color;
 }				t_line;
 
-typedef struct	s_float3
+typedef struct s_float3
 {
 	float	x;
 	float	y;
@@ -52,18 +68,28 @@ typedef struct	s_float3
 	int		color;
 }				t_float3;
 
-typedef	struct	s_arrsize
+typedef struct s_arrsize
 {
 	size_t	rows;
 	size_t	columns;
 }				t_arrsize;
 
-typedef struct	s_mat4x4
+typedef struct s_mat4x4
 {
-		float	m[4][4];
+	float	m[4][4];
 }				t_mat4x4;
 
-typedef struct 	s_data
+typedef struct s_color
+{
+	unsigned char	r1;
+	unsigned char	r2;
+	unsigned char	g1;
+	unsigned char	g2;
+	unsigned char	b1;
+	unsigned char	b2;
+}				t_color;
+
+typedef struct s_data
 {
 	void		*img;
 	void		*mlx;
@@ -72,16 +98,18 @@ typedef struct 	s_data
 	int			bits_per_pixel;
 	int			line_lenght;
 	int			endian;
+	char		*map_line;
+	char		**line_points;
 	t_float3	**map_points;
 	t_float3	**new_p;
-	t_arrsize 	*size;
+	t_arrsize	map_size;
 	t_mat4x4	mat_proj;
 	t_mat4x4	mat_scale;
 	t_mat4x4	mat_rx;
 	t_mat4x4	mat_ry;
 	t_mat4x4	mat_rz;
 	t_mat4x4	mat_trans;
-	t_mat4x4	mat_transform;
+	t_mat4x4	mat_transfrm;
 	float		trans_x;
 	float		trans_y;
 	float		scale;
@@ -96,25 +124,24 @@ typedef struct 	s_data
 	int			z_rotate_flag;
 }				t_data;
 
-void		my_mlx_pixel_put(t_data *var, int x, int y, int color);
 void		translate_vector(t_float3 *vector, float x, float y, float z);
-void		plot_line_low(t_data *var, t_line *pixel, t_float3 *p1, t_float3 *p2);
-void		plot_line_high(t_data *var, t_line *pixel, t_float3 *p1, t_float3 *p2);
+void		plot_line_low(t_data *var, t_line *p, t_float3 *p1, t_float3 *p2);
+void		plot_line_high(t_data *var, t_line *p, t_float3 *p1, t_float3 *p2);
 void		plot_line(t_data *var, t_float3 *p1, t_float3 *p2);
-void 		plot_line1(t_data *var, t_float3 *p1, t_float3 *p2);
-t_arrsize	get_size(char *arg);
-void		multiply_with_matrix(t_float3 *in, t_float3 *out, t_mat4x4 * m);
+void		plot_line1(t_data *var, t_float3 *p1, t_float3 *p2);
+void		get_size(t_data *var, char *arg);
+void		multiply_with_matrix(t_float3 *in, t_float3 *out, t_mat4x4 *m);
 void		zero_matrix4x4(t_mat4x4 *matrix);
 t_mat4x4	multiply_matrices(t_mat4x4 *first, t_mat4x4 *second);
 void		matrix_orth_proj_init(t_mat4x4 *matrix);
 void		matrix_pers_proj_init(t_mat4x4 *matrix);
 void		matrix_proj_init(t_mat4x4 *matrix);
-void 		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
+void		matrix_rotz_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_rotx_init(t_mat4x4 *matrix, float fTheta);
 void		matrix_roty_init(t_mat4x4 *matrix, float fTheta);
-void		matrix_scale_init(t_mat4x4 *matrix,float x);
+void		matrix_scale_init(t_mat4x4 *matrix, float x);
 void		matrix_translate_init(t_mat4x4 *matrix, float x, float y, float z);
-void		data_init(t_data *var, t_arrsize *map_size, char *arg);
+void		data_init(t_data *var, char *arg);
 void		fill_map(t_data *var, char *arg);
 void		draw(t_data *var);
 t_float3	**array2_malloc(size_t y, size_t x);
@@ -130,24 +157,6 @@ void		key_check1(int keycode, t_data *var);
 void		key_check2(int keycode, t_data *var);
 void		key_check3(int keycode, t_data *var);
 int			destroy_data(t_data *var);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void		clean_exit(t_data *var);
 
 #endif

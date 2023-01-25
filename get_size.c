@@ -1,31 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_size.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 18:03:25 by ttalvenh          #+#    #+#             */
+/*   Updated: 2023/01/25 18:03:29 by ttalvenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-
-
-t_arrsize	get_size(char *arg)
+void	get_size(t_data *var, char *arg)
 {
-	char		*map_line;
-	char		**line_points;
-	t_arrsize	map;
-	int			fd;
+	int	fd;
 
-	map.rows = 0;
-	map.columns = 0;
-	if((fd = open (arg, O_RDONLY)) <= 0) 
-		return (map);
-	while ((map_line = get_next_line(fd)))
+	if ((fd = open (arg, O_RDONLY)) <= 0)
+		clean_exit(var);
+	while ((var->map_line = get_next_line(fd)))
 	{
-		if (map.columns == 0)
+		if (var->map_size.columns == 0)
 		{
-			line_points = ft_split(map_line, ' ');
-			while (line_points[map.columns])
-				map.columns++;
-			array2_free((void **)line_points, map.columns);
+			if (!(var->line_points = ft_split(var->map_line, ' ')))
+				clean_exit(var);
+			while (var->line_points[var->map_size.columns])
+				var->map_size.columns++;
+			array2_free((void **)var->line_points, var->map_size.columns);
 		}
-		if (map_line != NULL)
-			map.rows++;
-		free(map_line);
+		if (var->map_line != NULL)
+			var->map_size.rows++;
+		free(var->map_line);
 	}
 	close(fd);
-	return (map);
 }

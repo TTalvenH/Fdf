@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   matrices.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 18:03:51 by ttalvenh          #+#    #+#             */
+/*   Updated: 2023/01/25 18:03:54 by ttalvenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	matrix_rotz_init(t_mat4x4 *matrix, float fTheta)
@@ -30,7 +42,7 @@ void	matrix_roty_init(t_mat4x4 *matrix, float fTheta)
 	matrix->m[3][3] = 1;
 }
 
-void	matrix_scale_init(t_mat4x4 *matrix,float x)
+void	matrix_scale_init(t_mat4x4 *matrix, float x)
 {
 	matrix->m[0][0] = x;
 	matrix->m[1][1] = x;

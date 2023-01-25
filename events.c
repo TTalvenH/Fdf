@@ -1,16 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   events.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ttalvenh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 18:05:06 by ttalvenh          #+#    #+#             */
+/*   Updated: 2023/01/25 18:05:08 by ttalvenh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-int		destroy_data(t_data *var)
+int	destroy_data(t_data *var)
 {
-		mlx_destroy_image(var->mlx, var->img);
-		if(var->mlx_win)
-			mlx_destroy_window(var->mlx, var->mlx_win);
-		free(var->mlx);
-		exit(0);
-		return (0);
+	free(var->map_line);
+	array2_free((void **)var->map_points, var->map_size.rows);
+	array2_free((void **)var->new_p, var->map_size.rows);
+	mlx_destroy_image(var->mlx, var->img);
+	mlx_destroy_window(var->mlx, var->mlx_win);
+	exit(0);
+	return (0);
 }
 
-int		key_event(int keycode, t_data *var)
+int	key_event(int keycode, t_data *var)
 {
 	key_check1(keycode, var);
 	key_check2(keycode, var);
@@ -18,9 +31,9 @@ int		key_event(int keycode, t_data *var)
 	return (0);
 }
 
-int		mouse_event(int keycode, int x, int y, t_data *var)
+int	mouse_event(int keycode, int x, int y, t_data *var)
 {
-	if(var->flag == 1)
+	if (var->flag == 1)
 	{
 		if (keycode == MAC_SCROLL_UP)
 			var->y_theta += 10;
@@ -37,7 +50,7 @@ int		mouse_event(int keycode, int x, int y, t_data *var)
 	return (0);
 }
 
-void		init_hooks(t_data *var)
+void	init_hooks(t_data *var)
 {
 	mlx_key_hook(var->mlx_win, &key_event, var);
 	mlx_mouse_hook(var->mlx_win, &mouse_event, var);
