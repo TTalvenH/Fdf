@@ -50,10 +50,10 @@ void	array2_copy(t_data *var)
 	int	i;
 
 	i = 0;
-	while (i < var->map_size.rows)
+	while (i < var->map_size.r)
 	{
-		ft_memcpy(var->new_p[i], var->map_points[i],
-			sizeof(t_float3) * var->map_size.columns);
+		ft_memcpy(var->new_p[i], var->map_p[i],
+			sizeof(t_float3) * var->map_size.c);
 		i++;
 	}
 }

@@ -23,9 +23,9 @@
 # define WIDTH 1400.0f
 # define HEIGHT 1200.0f
 
-# define WHITE 0x00FFFFFF
-# define RED 0x00FF0000
-# define BLUE 0x000000FF
+# define WHITE 0x007A04EB
+# define RED 0x00FF00A0
+# define BLUE 0x00120458
 
 enum{
 	MAC_ESC = 53,
@@ -35,6 +35,7 @@ enum{
 	MAC_DOWN = 125,
 	MAC_Q = 12,
 	MAC_R = 15,
+	MAC_P = 35,
 	MAC_1 = 18,
 	MAC_2 = 19,
 	MAC_3 = 20,
@@ -70,14 +71,21 @@ typedef struct s_float3
 
 typedef struct s_arrsize
 {
-	size_t	rows;
-	size_t	columns;
+	size_t	r;
+	size_t	c;
 }				t_arrsize;
 
 typedef struct s_mat4x4
 {
 	float	m[4][4];
 }				t_mat4x4;
+
+typedef struct s_fill_var
+{
+	int	fd;
+	int	xi;
+	int	yi;
+}				t_fill_var;
 
 typedef struct s_color
 {
@@ -100,7 +108,7 @@ typedef struct s_data
 	int			endian;
 	char		*map_line;
 	char		**line_points;
-	t_float3	**map_points;
+	t_float3	**map_p;
 	t_float3	**new_p;
 	t_arrsize	map_size;
 	t_mat4x4	mat_proj;

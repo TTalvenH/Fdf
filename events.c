@@ -15,8 +15,8 @@
 int	destroy_data(t_data *var)
 {
 	free(var->map_line);
-	array2_free((void **)var->map_points, var->map_size.rows);
-	array2_free((void **)var->new_p, var->map_size.rows);
+	array2_free((void **)var->map_p, var->map_size.r);
+	array2_free((void **)var->new_p, var->map_size.r);
 	mlx_destroy_image(var->mlx, var->img);
 	mlx_destroy_window(var->mlx, var->mlx_win);
 	exit(0);

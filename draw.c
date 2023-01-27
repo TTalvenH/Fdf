@@ -36,12 +36,13 @@ int	frame_draw(t_data *var)
 	y = 0;
 	array2_copy(var);
 	ft_bzero(var->addr, sizeof(int) * (WIDTH * HEIGHT));
-	while (y < var->map_size.rows)
+	while (y < var->map_size.r)
 	{
 		x = 0;
-		while (x < var->map_size.columns)
+		while (x < var->map_size.c)
 		{
-			transform(&var->map_points[y][x], &var->new_p[y][x], var);
+			transform(&var->map_p
+			[y][x], &var->new_p[y][x], var);
 			if (y)
 				plot_line (var, &var->new_p[y - 1][x], &var->new_p[y][x]);
 			if (x)

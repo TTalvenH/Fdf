@@ -55,6 +55,12 @@ void	key_check2(int keycode, t_data *var)
 		var->y_rotate_flag = 0;
 		var->z_rotate_flag = 0;
 	}
+	if (keycode == MAC_P)
+	{
+		var->x_theta = 90;
+		var->y_theta = 0;
+		var->z_theta = 0;
+	}
 }
 
 void	key_check3(int keycode, t_data *var)

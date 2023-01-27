@@ -16,20 +16,25 @@ void	get_size(t_data *var, char *arg)
 {
 	int	fd;
 
-	if ((fd = open (arg, O_RDONLY)) <= 0)
+	fd = open (arg, O_RDONLY);
+	if (fd <= 0)
 		clean_exit(var);
-	while ((var->map_line = get_next_line(fd)))
+	while (1)
 	{
-		if (var->map_size.columns == 0)
+		var->map_line = get_next_line(fd);
+		if (!var->map_line)
+			break ;
+		if (var->map_size.c == 0)
 		{
-			if (!(var->line_points = ft_split(var->map_line, ' ')))
+			var->line_points = ft_split(var->map_line, ' ');
+			if (!var->line_points)
 				clean_exit(var);
-			while (var->line_points[var->map_size.columns])
-				var->map_size.columns++;
-			array2_free((void **)var->line_points, var->map_size.columns);
+			while (var->line_points[var->map_size.c])
+				var->map_size.c++;
+			array2_free((void **)var->line_points, var->map_size.c);
 		}
 		if (var->map_line != NULL)
-			var->map_size.rows++;
+			var->map_size.r++;
 		free(var->map_line);
 	}
 	close(fd);

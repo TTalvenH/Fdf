@@ -22,29 +22,30 @@ void	set_z_max_min(t_data *var, float n)
 
 void	fill_map(t_data *var, char *arg)
 {
-	int	fd;
-	int	xi;
-	int	yi;
+	t_fill_var	i;
 
-	yi = 0;
-	if ((fd = open (arg, O_RDONLY)) <= 0)
+	i.yi = -1;
+	i.fd = open(arg, O_RDONLY);
+	if (i.fd <= 0)
 		clean_exit(var);
-	while ((var->map_line = get_next_line(fd)))
+	while (i.yi++ == -1 || var->map_line)
 	{
-		xi = 0;
+		i.xi = 0;
+		var->map_line = get_next_line(i.fd);
+		if (var->map_line == NULL)
+			break ;
 		var->line_points = ft_split(var->map_line, ' ');
 		if (!var->line_points)
 			clean_exit(var);
-		while (var->line_points[xi] && var->map_line)
+		while (var->line_points[i.xi] && var->map_line)
 		{
-			var->map_points[yi][xi].y = -(float)ft_atoi(var->line_points[xi]);
-			set_z_max_min(var, var->map_points[yi][xi].y);
-			var->map_points[yi][xi].x += (float)xi - var->map_size.columns / 2;
-			var->map_points[yi][xi++].z += (float)yi - var->map_size.rows / 2;
+			var->map_p[i.yi][i.xi].y = -(float)ft_atoi(var->line_points[i.xi]);
+			set_z_max_min(var, var->map_p[i.yi][i.xi].y);
+			var->map_p[i.yi][i.xi].x += (float)i.xi - var->map_size.c / 2;
+			var->map_p[i.yi][i.xi++].z += (float)i.yi - var->map_size.r / 2;
 		}
-		array2_free((void **)var->line_points, xi);
+		array2_free((void **)var->line_points, i.xi);
 		free(var->map_line);
-		yi++;
 	}
 }
 
@@ -55,10 +56,10 @@ void	data_init(t_data *var, char *arg)
 	var->scale = 25.0f;
 	var->x_theta = 45;
 	var->y_theta = 35.264;
-	var->map_points = array2_malloc(var->map_size.rows, var->map_size.columns);
-	if (!var->map_points)
+	var->map_p = array2_malloc(var->map_size.r, var->map_size.c);
+	if (!var->map_p)
 		clean_exit(var);
-	var->new_p = array2_malloc(var->map_size.rows, var->map_size.columns);
+	var->new_p = array2_malloc(var->map_size.r, var->map_size.c);
 	if (!var->new_p)
 		clean_exit(var);
 	fill_map(var, arg);
