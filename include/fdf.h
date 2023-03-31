@@ -19,36 +19,51 @@
 # include <unistd.h>
 # include <string.h>
 # include <stdio.h>
-# include "./libft/libft.h"
+# include "libft.h"
+
 # define WIDTH 1400.0f
 # define HEIGHT 1200.0f
-
 # define WHITE 0x007A04EB
 # define RED 0x00FF00A0
 # define BLUE 0x00120458
 
+#ifdef __APPLE__
 enum{
-	MAC_ESC = 53,
-	MAC_RIGHT = 124,
-	MAC_LEFT = 123,
-	MAC_UP = 126,
-	MAC_DOWN = 125,
-	MAC_Q = 12,
-	MAC_R = 15,
-	MAC_P = 35,
-	MAC_1 = 18,
-	MAC_2 = 19,
-	MAC_3 = 20,
-	MAC_SCROLL_UP = 4,
-	MAC_SCROLL_DOWN = 5,
-	ON_KEYDOWN = 2,
-	ON_KEYUP = 3,
-	ON_MOUSEDOWN = 4,
-	ON_MOUSEUP = 5,
-	ON_MOUSEMOVE = 6,
-	ON_EXPOSE = 12,
-	ON_DESTROY = 17
+	KEY_ESC = 53,
+	KEY_RIGHT = 124,
+	KEY_LEFT = 123,
+	KEY_UP = 126,
+	KEY_DOWN = 125,
+	KEY_Q = 12,
+	KEY_R = 15,
+	KEY_P = 35,
+	KEY_1 = 18,
+	KEY_2 = 19,
+	KEY_3 = 20,
+	KEY_SCROLL_UP = 4,
+	KEY_SCROLL_DOWN = 5,
+	ON_DESTROY = 17,
 };
+#endif
+
+#ifdef __linux__
+enum{
+	KEY_ESC = 65307,
+	KEY_1 = 49,
+	KEY_2 = 50,
+	KEY_3 = 51,
+	KEY_Q = 113,
+	KEY_R = 114,
+	KEY_P = 112,
+	KEY_UP = 65362,
+	KEY_LEFT = 65361,
+	KEY_RIGHT = 65353,
+	KEY_DOWN = 65364,
+	KEY_SCROLLUP = 4,
+	KEY_SCROLLDOWN = 5,
+	ON_DESTROY = 17,
+};
+#endif
 
 typedef struct s_line
 {

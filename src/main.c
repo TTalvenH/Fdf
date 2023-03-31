@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf_bonus.h"
+#include "fdf.h"
 #include <stdio.h>
 
 void	clean_exit(t_data *var)

@@ -33,18 +33,21 @@ int	key_event(int keycode, t_data *var)
 
 int	mouse_event(int keycode, int x, int y, t_data *var)
 {
+	x = y;
+	y = x;
+	ft_printf("%d\n", keycode);
 	if (var->flag == 1)
 	{
-		if (keycode == MAC_SCROLL_UP)
+		if (keycode == KEY_SCROLLUP)
 			var->y_theta += 10;
-		if (keycode == MAC_SCROLL_DOWN)
+		if (keycode == KEY_SCROLLDOWN)
 			var->y_theta -= 10;
 	}
 	else
 	{
-		if (keycode == MAC_SCROLL_UP)
+		if (keycode == KEY_SCROLLUP)
 			var->scale += 1.0;
-		if (keycode == MAC_SCROLL_DOWN)
+		if (keycode == KEY_SCROLLDOWN)
 			var->scale -= 1.0;
 	}
 	return (0);

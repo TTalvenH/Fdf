@@ -15,7 +15,7 @@
 t_float3	**array2_malloc(size_t y, size_t x)
 {
 	t_float3	**array;
-	int			i;
+	size_t		i;
 
 	i = 0;
 	array = malloc(sizeof(t_float3 *) * y);
@@ -37,7 +37,7 @@ t_float3	**array2_malloc(size_t y, size_t x)
 
 void	array2_free(void **array, size_t y)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < y)
@@ -47,7 +47,7 @@ void	array2_free(void **array, size_t y)
 
 void	array2_copy(t_data *var)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < var->map_size.r)

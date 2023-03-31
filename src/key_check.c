@@ -14,24 +14,25 @@
 
 void	key_check1(int keycode, t_data *var)
 {
-	if (keycode == MAC_ESC)
+	ft_printf("%d\n", keycode);
+	if (keycode == KEY_ESC)
 		destroy_data(var);
-	if (keycode == MAC_LEFT)
+	if (keycode == KEY_LEFT)
 		var->trans_x -= 30;
-	if (keycode == MAC_RIGHT)
+	if (keycode == KEY_RIGHT)
 		var->trans_x += 30;
-	if (keycode == MAC_DOWN)
+	if (keycode == KEY_DOWN)
 		var->trans_y += 30;
-	if (keycode == MAC_UP)
+	if (keycode == KEY_UP)
 		var->trans_y -= 30;
-	if (keycode == MAC_1)
+	if (keycode == KEY_1)
 	{
 		if (var->y_rotate_flag == 0)
 			var->y_rotate_flag = 1;
 		else if (var->y_rotate_flag == 1)
 			var->y_rotate_flag = 0;
 	}
-	if (keycode == MAC_2)
+	if (keycode == KEY_2)
 	{
 		if (var->x_rotate_flag == 0)
 			var->x_rotate_flag = 1;
@@ -42,7 +43,7 @@ void	key_check1(int keycode, t_data *var)
 
 void	key_check2(int keycode, t_data *var)
 {
-	if (keycode == MAC_R)
+	if (keycode == KEY_R)
 	{
 		var->trans_x = WIDTH / 2;
 		var->trans_y = HEIGHT / 2;
@@ -55,7 +56,7 @@ void	key_check2(int keycode, t_data *var)
 		var->y_rotate_flag = 0;
 		var->z_rotate_flag = 0;
 	}
-	if (keycode == MAC_P)
+	if (keycode == KEY_P)
 	{
 		var->x_theta = 90;
 		var->y_theta = 0;
@@ -65,14 +66,14 @@ void	key_check2(int keycode, t_data *var)
 
 void	key_check3(int keycode, t_data *var)
 {
-	if (keycode == MAC_Q)
+	if (keycode == KEY_Q)
 	{
 		if (!var->flag)
 			var->flag = 1;
 		else
 			var->flag = 0;
 	}
-	if (keycode == MAC_3)
+	if (keycode == KEY_3)
 	{
 		if (!var->z_rotate_flag)
 			var->z_rotate_flag = 1;

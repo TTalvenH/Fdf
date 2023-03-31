@@ -44,6 +44,14 @@ static int	count_wordlen(char *s, char c)
 	return (count);
 }
 
+static void	array_error(char **arr, int len)
+{
+	while (len >= 0)
+		free(arr[len--]);
+	free(arr);
+	exit(-1);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	int		i;
@@ -63,7 +71,7 @@ char	**ft_split(char const *s, char c)
 		wordlen = count_wordlen((char *)s, c);
 		array[i] = malloc (sizeof(char) * (wordlen + 1));
 		if (array [i] == NULL)
-			return (NULL);
+			array_error(array, i);
 		array[i] = ft_memcpy(array[i], s, wordlen);
 		array[i++][wordlen] = '\0';
 		while (*s != c && *s != '\0')
