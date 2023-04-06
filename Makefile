@@ -9,13 +9,13 @@ DEP = $(OBJ:.o=.d)
 LIBFT = libft.a
 OS = $(shell uname)
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
 $(LIBFT):
 	make -C libft
 
 ifeq ($(OS), Darwin)
-$(NAME): $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(OBJ) ./libft/libft.a -lmlx -Ilibft -Llibft -framework OpenGL -framework AppKit -lm -O3 -o $(NAME)
 
 -include $(DEP)
@@ -26,7 +26,7 @@ $(OBJ_DIR)/%.o: %.c
 endif
 
 ifeq ($(OS), Linux)
-$(NAME): $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(OBJ) ./libft/libft.a -Lmlx_linux -lmlx_Linux -L/usr/include -Ilibft -Llibft -Imlx_linux -lXext -lX11 -lm -lz -O3 -o $(NAME)
 
 -include $(DEP)
