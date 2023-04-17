@@ -40,8 +40,8 @@ enum{
 	KEY_1 = 18,
 	KEY_2 = 19,
 	KEY_3 = 20,
-	KEY_SCROLL_UP = 4,
-	KEY_SCROLL_DOWN = 5,
+	KEY_SCROLLUP = 4,
+	KEY_SCROLLDOWN = 5,
 	ON_DESTROY = 17,
 };
 #endif

@@ -1,8 +1,9 @@
 NAME = fdf
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -MMD
+CFLAGS = -MMD
 VPATH = src
 SRC = main.c matrix.c line.c get_size.c matrices.c data_init.c draw.c color.c utils.c events.c key_check.c
+INCLUDE = -Ilibft/include -Iinclude -Imlx
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 DEP = $(OBJ:.o=.d)
@@ -22,7 +23,7 @@ $(NAME): $(LIBFT) $(OBJ)
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -Imlx -O3 -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDE) -Imlx -O3 -c $< -o $@
 endif
 
 ifeq ($(OS), Linux)
